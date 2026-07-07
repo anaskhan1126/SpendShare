@@ -1,365 +1,481 @@
 /* ==========================================
-   SpendShare — Modern Responsive Overrides
+   SpendShare — Common Responsive Utilities
    ========================================== */
 
-/* Keep base elements from horizontal scroll on mobile */
-html, body {
-    max-width: 100% !important;
-    overflow-x: hidden !important;
+/* ==========================================
+   Global utilities
+   ========================================== */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
-/* Large Tablet / Small Laptop (max-width: 1200px) */
-@media (max-width: 1200px) {
-    .dashboard-content,
-    .page-content {
-        padding: 20px !important;
-    }
+/* Common box sizing and layout elements */
+.app-container,
+.main,
+.dashboard-content,
+.page-content {
+    box-sizing: border-box;
 }
 
-/* Tablet View (max-width: 992px) */
+/* Reusable responsive classes */
+.box-border {
+    box-sizing: border-box;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.max-w-100 {
+    max-width: 100%;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+/* ==========================================
+   Grid utilities
+   ========================================== */
+/* Grid system adjustments are handled inside media queries */
+
+/* ==========================================
+   Card utilities
+   ========================================== */
+/* Card overrides are handled inside media queries */
+
+/* ==========================================
+   Form utilities
+   ========================================== */
+/* Form element spacing and button adjustments are handled inside media queries */
+
+/* ==========================================
+   Table utilities
+   ========================================== */
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ==========================================
+   Chart utilities
+   ========================================== */
+.chart-wrapper,
+.chart-container,
+.chart-card {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+.chart-wrapper canvas {
+    width: 100%;
+    height: auto;
+}
+
+/* ==========================================
+   Modal utilities
+   ========================================== */
+/* Modal layouts are handled inside media queries */
+
+/* ==========================================
+   Navbar utilities
+   ========================================== */
+/* Navbar scaling is handled inside media queries */
+
+
+/* ==========================================
+   Breakpoints
+   ========================================== */
+
+/* 992px (Tablet View) */
 @media (max-width: 992px) {
+    /* Global/Layout */
     .main {
-        margin-left: var(--sidebar-collapsed) !important;
+        margin-left: var(--sidebar-collapsed);
     }
 
-    .summary-cards {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 16px !important;
+    /* Grid layouts */
+    .main .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
     }
 
-    .charts-row,
-    .insights-row,
-    .bottom-row,
-    .form-grid,
-    .grid-2-cols,
-    .split-layout,
-    .layout-2-cols {
-        grid-template-columns: 1fr !important;
-        gap: 20px !important;
+    .main .charts-row,
+    .main .insights-row,
+    .main .bottom-row,
+    .main .form-grid,
+    .main .grid-2-cols,
+    .main .split-layout,
+    .main .layout-2-cols {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .insights-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
+    .main .insights-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
-    /* Keep tables from overflowing screen */
-    .table-wrapper,
-    .table-container,
-    .table-responsive {
-        width: 100% !important;
-        overflow-x: auto !important;
-        display: block !important;
+    /* Table responsive wrappers */
+    .main .table-wrapper,
+    .main .table-container,
+    .main .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        display: block;
         border-radius: var(--radius-md);
         border: 1px solid var(--border-light);
         background: var(--card);
         -webkit-overflow-scrolling: touch;
     }
 
-    .table-wrapper table,
-    .table-container table,
-    .table-responsive table,
-    .data-table,
-    .history-table,
-    .member-table {
-        min-width: 600px !important;
+    .main .data-table,
+    .main .history-table,
+    .main .member-table,
+    .main .report-table,
+    .main .expense-table {
+        min-width: 600px;
     }
 }
 
-/* Mobile Landscape & Tablet Portrait (max-width: 768px) */
+/* 768px (Mobile Landscape & Tablet Portrait) */
 @media (max-width: 768px) {
+    /* Global/Layout */
     .main {
-        margin-left: 0 !important;
+        margin-left: 0;
     }
 
-    .summary-cards,
-    .insights-grid,
-    .grid-3-cols,
-    .grid-4-cols,
-    .dashboard-grid,
-    .stats-grid,
-    .profile-grid,
-    .members-grid,
-    .expenses-grid,
-    .settlement-grid,
-    .split-layout,
-    .layout-2-cols,
-    .form-layout,
-    .form-grid,
-    .form-row,
-    .grid-layout,
-    .analytics,
-    .stats-row,
-    .filter-grid,
-    .filter-row,
-    .quick-links {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
+    .main .dashboard-content,
+    .main .page-content {
+        padding: 16px 12px 30px;
     }
 
-    .welcome-card {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 20px !important;
-        padding: 24px !important;
+    /* Grid layouts (reusable components) */
+    .main .summary-cards,
+    .main .insights-grid,
+    .main .grid-3-cols,
+    .main .grid-4-cols,
+    .main .dashboard-grid,
+    .main .stats-grid,
+    .main .profile-grid,
+    .main .members-grid,
+    .main .expenses-grid,
+    .main .settlement-grid,
+    .main .form-layout,
+    .main .form-row,
+    .main .grid-layout,
+    .main .analytics,
+    .main .stats-row,
+    .main .filter-grid,
+    .main .filter-row,
+    .main .quick-links {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
-    .welcome-actions {
-        width: 100% !important;
-        flex-direction: column !important;
-        gap: 10px !important;
+    .main .split-layout,
+    .main .layout-2-cols,
+    .main .form-grid {
+        gap: 12px; /* Inherit 1fr stacking layout from 992px */
     }
 
-    .welcome-actions button,
-    .welcome-actions a {
-        width: 100% !important;
-        justify-content: center !important;
+    /* Page headers */
+    .main .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 20px;
     }
 
-    /* Page container adjustments */
-    .dashboard-content,
-    .page-content {
-        padding: 16px 12px 30px !important;
+    .main .page-header h2 {
+        font-size: 20px;
     }
 
-    .page-header {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 12px !important;
-        margin-bottom: 20px !important;
+    .main .page-header .btn,
+    .main .page-header .btn-ghost,
+    .main .page-header .btn-primary,
+    .main .page-header .btn-secondary,
+    .main .page-header .btn-action {
+        width: 100%;
+        justify-content: center;
     }
 
-    .page-header h2 {
-        font-size: 20px !important;
+    /* Cards */
+    .main .welcome-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 24px;
     }
 
-    .page-header .btn,
-    .page-header button,
-    .page-header a,
-    .page-header .btn-ghost,
-    .page-header .btn-primary {
-        width: 100% !important;
-        justify-content: center !important;
+    .main .welcome-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    /* Profile UI settings save and actions */
-    .profile-trigger .profile-info {
-        display: none !important;
+    .main .welcome-actions .btn-primary,
+    .main .welcome-actions .btn-secondary,
+    .main .welcome-actions .share-code-container {
+        width: 100%;
+        justify-content: center;
     }
 
-    .profile-trigger {
-        padding: 4px !important;
+    /* Navbar */
+    .main .profile-trigger .profile-info {
+        display: none;
     }
 
-    .navbar {
-        padding: 0 16px !important;
+    .main .profile-trigger {
+        padding: 4px;
+    }
+
+    .main .navbar {
+        padding: 0 16px;
     }
 
     /* Form control wrapping */
-    .filter-row,
-    .search-filter-row,
-    .button-group,
-    .action-group,
-    .quick-actions {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 10px !important;
+    .main .filter-row,
+    .main .search-filter-row,
+    .main .button-group,
+    .main .action-group,
+    .main .quick-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
     }
 
-    .filter-item, .search-box, .search-container {
-        width: 100% !important;
-        max-width: 100% !important;
+    .main .filter-item,
+    .main .search-box,
+    .main .search-container {
+        width: 100%;
+        max-width: 100%;
     }
 
-    .filter-item select,
-    .filter-item input,
-    .search-box input {
-        width: 100% !important;
+    .main .filter-item select,
+    .main .filter-item input,
+    .main .search-box input {
+        width: 100%;
     }
 }
 
-/* Mobile Portrait (max-width: 576px) */
+/* 576px (Mobile Portrait) */
 @media (max-width: 576px) {
-    /* Ensure body font size is readable (at least 14px) */
-    body, p, li, a, td, th, label, .stat-label, .welcome-date, .welcome-subtitle {
-        font-size: 14px !important;
+    /* Form fields stretch to full width */
+    .main .form-control,
+    .main .input-field input,
+    .main .select-field select,
+    .main .float-group input,
+    .main .float-group select,
+    .main .float-group textarea,
+    .main .filter-item select,
+    .main .filter-item input,
+    .main .search-box input,
+    .main .search-container input,
+    .main .input-group input,
+    .login-container .input-field input {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        font-size: 14px;
     }
 
-    /* Form fields stretch to full width and use 14px text */
-    input, select, textarea, .input-field, .select-field, .form-control {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        font-size: 14px !important;
+    /* ONLY buttons inside forms should become full width */
+    .main form .btn,
+    .main form .btn-primary,
+    .main form .btn-secondary,
+    .main form .btn-ghost,
+    .main form .btn-submit,
+    .main form .btn-reset,
+    .main form .btn-action,
+    .main form .action-btn,
+    .login-container form .login-btn,
+    .register-container form .register-btn {
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+        display: inline-flex;
+        box-sizing: border-box;
+        font-size: 14px;
     }
 
-    /* Buttons stack and fit the screen */
-    .btn, button, .btn-primary, .btn-secondary, .btn-ghost, .btn-submit, .btn-reset, .btn-action, .action-btn {
-        width: 100% !important;
-        max-width: 100% !important;
-        justify-content: center !important;
-        display: inline-flex !important;
-        box-sizing: border-box !important;
-        font-size: 14px !important;
-    }
-
-    /* Cards become full width */
-    .stat-card, .panel-card, .feature-card, .insight-item, .card {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+    /* Cards become full width (specific card classes replacing .card) */
+    .main .stat-card,
+    .main .panel-card,
+    .main .summary-card,
+    .main .chart-card,
+    .main .welcome-card,
+    .main .form-card,
+    .main .profile-card,
+    .main .insight-item,
+    .main .quick-link-card,
+    .main .danger-card,
+    .login-container .login-card,
+    .register-container .register-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     /* Modals & Popups full width and fit screen */
-    .modal {
-        padding: 10px !important;
+    .main .modal {
+        padding: 10px;
     }
 
-    .modal-content, .modal-body, .popup-content {
-        width: 100% !important;
-        max-width: 98% !important;
-        padding: 16px !important;
-        margin: 10px auto !important;
-        box-sizing: border-box !important;
+    .main .modal-content,
+    .main .modal-body,
+    .main .popup-content {
+        width: 100%;
+        max-width: 98%;
+        padding: 16px;
+        margin: 10px auto;
+        box-sizing: border-box;
     }
 
-    .modal-header, .modal-footer {
-        padding: 12px 16px !important;
+    .main .modal-header,
+    .main .modal-footer {
+        padding: 12px 16px;
     }
 
-    .navbar h1 {
-        font-size: 18px !important;
+    /* Navbar title adjustment */
+    .main .navbar h1 {
+        font-size: 18px;
     }
 
-    .stat-card {
-        padding: 16px !important;
+    .main .stat-card {
+        padding: 16px;
     }
 
-    .stat-value {
-        font-size: 20px !important;
+    .main .stat-value {
+        font-size: 20px;
     }
 
-    /* Wrap long text and values */
-    .stat-value, .amount, .balance, h1, h2, h3, p, span, td, th {
-        word-break: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
+    /* Wrap long dynamic text and values only where appropriate */
+    .main .stat-value,
+    .main .amount,
+    .main .balance,
+    .main .member-name,
+    .main .member-email,
+    .main .expense-title,
+    .main .flat-code,
+    .main .profile-name,
+    .main .profile-email {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
     }
 
     /* Charts auto-resize */
-    .chart-wrapper, .chart-container, .chart-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        box-sizing: border-box !important;
-    }
-
-    .chart-wrapper canvas {
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    /* Images scale properly */
-    img {
-        max-width: 100% !important;
-        height: auto !important;
+    .main .chart-wrapper,
+    .main .chart-container,
+    .main .chart-card {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        box-sizing: border-box;
     }
 
     /* Pagination items wrap */
-    .pagination, .pagination-container, .page-numbers {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        gap: 6px !important;
-        width: 100% !important;
+    .main .pagination,
+    .main .pagination-container,
+    .main .page-numbers {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
     }
 
-    /* Dynamic element spacing adjustments */
-    .member-item, .expense-item, .detail-row {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 8px !important;
+    /* Dynamic elements spacing adjustments */
+    .main .member-item,
+    .main .expense-item,
+    .main .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
 
-    .member-actions, .expense-actions {
-        width: 100% !important;
-        justify-content: flex-start !important;
-    }
-
-    .member-card-info p {
-        max-width: 100% !important;
+    .main .member-actions,
+    .main .expense-actions {
+        width: 100%;
+        justify-content: flex-start;
     }
 }
 
-/* Small Screen Mobile Devices (max-width: 375px) */
+/* 375px (Small Screen Mobile Devices) */
 @media (max-width: 375px) {
-    .navbar h1 {
-        font-size: 15px !important;
+    .main .navbar h1 {
+        font-size: 15px;
     }
 
-    .stat-value {
-        font-size: 18px !important;
+    .main .stat-value {
+        font-size: 18px;
     }
 
-    .dashboard-content,
-    .page-content {
-        padding: 12px 8px 24px !important;
+    .main .dashboard-content,
+    .main .page-content {
+        padding: 12px 8px 24px;
     }
 
-    .panel-card {
-        padding: 16px !important;
+    .main .panel-card {
+        padding: 16px;
     }
 }
 
-/* High Priority 320px Screen Optimization (max-width: 320px) */
+/* 320px (High Priority 320px Screen Optimization) */
 @media (max-width: 320px) {
     /* Prevent any padding-related overflow */
-    .dashboard-content,
-    .page-content {
-        padding: 8px 6px 20px !important;
+    .main .dashboard-content,
+    .main .page-content {
+        padding: 8px 6px 20px;
     }
 
-    .panel-card,
-    .stat-card {
-        padding: 12px 10px !important;
+    .main .panel-card,
+    .main .stat-card {
+        padding: 12px 10px;
     }
 
-    .modal-content,
-    .modal-body,
-    .popup-content {
-        padding: 12px !important;
-        margin: 5px auto !important;
+    .main .modal-content,
+    .main .modal-body,
+    .main .popup-content {
+        padding: 12px;
+        margin: 5px auto;
     }
 
     /* Ensure text labels wrap nicely without collision */
-    .stat-card-content {
-        gap: 10px !important;
+    .main .stat-card-content {
+        gap: 10px;
     }
 
-    .stat-icon {
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 16px !important;
+    .main .stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
     }
 
     /* Reduce vertical gaps and margins */
-    .analytics,
-    .summary-cards,
-    .charts-row,
-    .insights-row,
-    .bottom-row,
-    .stats-row,
-    .filter-grid,
-    .filter-row {
-        gap: 8px !important;
-        margin-bottom: 12px !important;
+    .main .analytics,
+    .main .summary-cards,
+    .main .charts-row,
+    .main .insights-row,
+    .main .bottom-row,
+    .main .stats-row,
+    .main .filter-grid,
+    .main .filter-row {
+        gap: 8px;
+        margin-bottom: 12px;
     }
-    
-    .panel-card,
-    .stat-card,
-    .welcome-card {
-        margin-bottom: 12px !important;
+
+    .main .panel-card,
+    .main .stat-card,
+    .main .welcome-card {
+        margin-bottom: 12px;
     }
 }

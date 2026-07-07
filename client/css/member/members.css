@@ -546,6 +546,10 @@
     .detail-grid {
         grid-template-columns: 1fr;
     }
+
+    .member-card-info p {
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
