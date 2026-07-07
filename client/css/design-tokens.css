@@ -1,0 +1,38 @@
+/* Design Tokens and Theme Variables */
+:root {
+  /* Primary Palette */
+  --primary: hsl(210, 80%, 55%); /* teal-blue */
+  --primary-dark: hsl(210, 80%, 45%);
+  --primary-light: hsl(210, 80%, 65%);
+  --primary-glow: hsla(210, 80%, 55%, 0.3);
+
+  /* Neutral Colors */
+  --background: hsl(0, 0%, 98%);
+  --card: hsl(0, 0%, 100%);
+  --border: hsl(0, 0%, 90%);
+  --text: hsl(210, 15%, 20%);
+  --text-muted: hsl(210, 10%, 45%);
+
+  /* Spacing */
+  --gap: 1rem;
+  --radius-sm: 0.4rem;
+  --radius-md: 0.6rem;
+  --radius-lg: 0.8rem;
+  --radius-xl: 1rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.15);
+  --shadow-lg: 0 8px 15px rgba(0,0,0,0.2);
+
+  /* Transitions */
+  --transition: 0.2s ease-out;
+}
+
+[data-theme="dark"] {
+  --background: hsl(210, 20%, 10%);
+  --card: hsl(210, 15%, 15%);
+  --border: hsl(210, 10%, 30%);
+  --text: hsl(210, 15%, 90%);
+  --text-muted: hsl(210, 10%, 70%);
+}

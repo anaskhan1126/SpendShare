@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/member/settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-expense.html">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Expense</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expenses.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="members.html">
+                        <i class="fa-solid fa-users-line"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Settings</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Profile">
+                            <div class="profile-info">
+                                <h4 id="memberName">Member</h4>
+                                <small>Flat Member</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <div class="page-header slide-up">
+                    <div>
+                        <h2>Account Settings</h2>
+                        <p>Manage your preferences and account security.</p>
+                    </div>
+                </div>
+
+                <div class="settings-layout">
+
+                    <!-- Appearance -->
+                    <div class="panel-card slide-up slide-up-delay-1">
+                        <div class="section-header">
+                            <h3><i class="fa-solid fa-palette"></i> Appearance</h3>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h4>Theme</h4>
+                                <p>Switch between light and dark mode</p>
+                            </div>
+                            <div class="theme-toggle-wrap">
+                                <button class="theme-option" id="lightModeBtn" data-theme="light">
+                                    <i class="fa-solid fa-sun"></i>
+                                    <span>Light</span>
+                                </button>
+                                <button class="theme-option" id="darkModeBtn" data-theme="dark">
+                                    <i class="fa-solid fa-moon"></i>
+                                    <span>Dark</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Change Password -->
+                    <div class="panel-card slide-up slide-up-delay-2">
+                        <div class="section-header">
+                            <h3><i class="fa-solid fa-lock"></i> Change Password</h3>
+                            <p class="section-subtitle">Update your password to keep your account secure</p>
+                        </div>
+
+                        <form id="passwordForm" novalidate>
+
+                            <div class="float-group password-group" data-field="currentPassword">
+                                <input type="password" id="currentPassword" placeholder=" " required>
+                                <label for="currentPassword">Current Password</label>
+                                <i class="field-icon fa-solid fa-lock"></i>
+                                <button type="button" class="toggle-password" data-target="currentPassword" aria-label="Show password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <div class="float-group password-group" data-field="newPassword">
+                                <input type="password" id="newPassword" placeholder=" " required minlength="6">
+                                <label for="newPassword">New Password</label>
+                                <i class="field-icon fa-solid fa-key"></i>
+                                <button type="button" class="toggle-password" data-target="newPassword" aria-label="Show password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <div class="password-strength" id="passwordStrength" style="display:none;">
+                                <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                                <span class="strength-text" id="strengthText">Weak</span>
+                            </div>
+
+                            <div class="float-group password-group" data-field="confirmPassword">
+                                <input type="password" id="confirmPassword" placeholder=" " required>
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <i class="field-icon fa-solid fa-lock"></i>
+                                <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="Show password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <button type="submit" class="btn-submit" id="submitBtn">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>Update Password</span>
+                                <div class="btn-loader" style="display:none;">
+                                    <i class="fa-solid fa-spinner fa-spin"></i>
+                                </div>
+                            </button>
+
+                        </form>
+
+                        <ul class="security-tips">
+                            <li><i class="fa-solid fa-check"></i> Use at least 6 characters</li>
+                            <li><i class="fa-solid fa-check"></i> Mix letters, numbers, and symbols</li>
+                            <li><i class="fa-solid fa-check"></i> Don't reuse passwords from other sites</li>
+                        </ul>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="panel-card danger-card slide-up slide-up-delay-3">
+                        <div class="section-header">
+                            <h3><i class="fa-solid fa-triangle-exclamation"></i> Session</h3>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h4>Logout</h4>
+                                <p>Sign out of your account on this device</p>
+                            </div>
+                            <button class="btn-logout" id="settingsLogoutBtn">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/member/settings.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,399 @@
+/* ===========================
+   SETTINGS PAGE
+=========================== */
+
+.page-content {
+    padding: 24px 28px 40px;
+    max-width: 720px;
+}
+
+.page-enter {
+    animation: fadeIn 0.4s ease;
+}
+
+.panel-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+}
+
+/* ===========================
+   PAGE HEADER
+=========================== */
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+}
+
+.page-header p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.settings-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ===========================
+   SECTION HEADER
+=========================== */
+
+.section-header {
+    margin-bottom: 24px;
+}
+
+.section-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-header h3 i {
+    color: var(--primary);
+}
+
+.section-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* ===========================
+   SETTING ROW
+=========================== */
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.setting-info h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.setting-info p {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ===========================
+   THEME TOGGLE
+=========================== */
+
+.theme-toggle-wrap {
+    display: flex;
+    gap: 8px;
+    background: var(--background);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.theme-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    transition: all var(--transition);
+}
+
+.theme-option i {
+    font-size: 14px;
+}
+
+.theme-option:hover {
+    color: var(--text);
+}
+
+.theme-option.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===========================
+   FLOATING LABEL INPUTS
+=========================== */
+
+.float-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.float-group input {
+    width: 100%;
+    padding: 16px 44px 16px 44px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--background);
+    transition: all var(--transition);
+    outline: none;
+}
+
+.password-group input {
+    padding-right: 48px;
+}
+
+.float-group label {
+    position: absolute;
+    left: 44px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: all var(--transition);
+}
+
+.float-group input:focus,
+.float-group input:not(:placeholder-shown) {
+    border-color: var(--primary);
+    background: var(--card);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.float-group input:focus + label,
+.float-group input:not(:placeholder-shown) + label {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--card);
+    padding: 0 4px;
+}
+
+.field-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.float-group input:focus ~ .field-icon {
+    color: var(--primary);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 4px;
+    transition: color var(--transition);
+}
+
+.toggle-password:hover {
+    color: var(--primary);
+}
+
+.float-group.has-error input {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.float-group.has-success input {
+    border-color: var(--success);
+}
+
+.field-error {
+    display: block;
+    font-size: 12px;
+    color: var(--danger);
+    margin-top: 6px;
+    min-height: 0;
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.float-group.has-error .field-error {
+    opacity: 1;
+}
+
+/* ===========================
+   PASSWORD STRENGTH
+=========================== */
+
+.password-strength {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: -8px 0 16px;
+}
+
+.strength-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 4px;
+    transition: all var(--transition);
+}
+
+.strength-fill.weak { width: 33%; background: var(--danger); }
+.strength-fill.medium { width: 66%; background: var(--warning); }
+.strength-fill.strong { width: 100%; background: var(--success); }
+
+.strength-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 50px;
+}
+
+/* ===========================
+   SUBMIT BUTTON
+=========================== */
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all var(--transition);
+    margin-top: 4px;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+}
+
+.btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ===========================
+   SECURITY TIPS
+=========================== */
+
+.security-tips {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.security-tips li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.security-tips li i {
+    color: var(--success);
+    font-size: 12px;
+}
+
+/* ===========================
+   DANGER ZONE
+=========================== */
+
+.danger-card {
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.danger-card .section-header h3 i {
+    color: var(--danger);
+}
+
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    background: var(--danger-light);
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.btn-logout:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 768px) {
+    .page-content {
+        padding: 16px;
+    }
+
+    .setting-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .theme-toggle-wrap,
+    .btn-logout {
+        width: 100%;
+    }
+
+    .theme-option {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .btn-logout {
+        justify-content: center;
+    }
+}

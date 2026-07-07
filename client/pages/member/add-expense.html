@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/member/add-expense.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="add-expense.html">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Expense</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expenses.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="members.html">
+                        <i class="fa-solid fa-users-line"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Add Expense</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Profile">
+                            <div class="profile-info">
+                                <h4 id="memberName">Member</h4>
+                                <small>Flat Member</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <!-- Page Header -->
+                <div class="page-header slide-up">
+                    <div>
+                        <h2>Record a Shared Expense</h2>
+                        <p>Add a new expense for your flat. It will be split equally among all members.</p>
+                    </div>
+                    <a href="expenses.html" class="btn-ghost">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        View History
+                    </a>
+                </div>
+
+                <div class="form-layout">
+
+                    <!-- Main Form -->
+                    <div class="form-card panel-card slide-up slide-up-delay-1">
+                        <form id="expenseForm" novalidate>
+
+                            <div class="form-section">
+                                <h3 class="section-title">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    Expense Details
+                                </h3>
+
+                                <div class="form-grid">
+
+                                    <div class="float-group" data-field="title">
+                                        <input type="text" id="title" placeholder=" " autocomplete="off" required>
+                                        <label for="title">Expense Title</label>
+                                        <i class="field-icon fa-solid fa-receipt"></i>
+                                        <span class="field-error"></span>
+                                    </div>
+
+                                    <div class="float-group" data-field="amount">
+                                        <input type="number" id="amount" placeholder=" " min="0.01" step="0.01" required>
+                                        <label for="amount">Amount (₹)</label>
+                                        <i class="field-icon fa-solid fa-indian-rupee-sign"></i>
+                                        <span class="field-error"></span>
+                                    </div>
+
+                                    <div class="float-group select-group" data-field="category">
+                                        <select id="category" required>
+                                            <option value="" disabled selected hidden></option>
+                                            <option>Food</option>
+                                            <option>Groceries</option>
+                                            <option>Electricity</option>
+                                            <option>Internet</option>
+                                            <option>Gas</option>
+                                            <option>Water Bill</option>
+                                            <option>Travel</option>
+                                            <option>Medical</option>
+                                            <option>Shopping</option>
+                                            <option>Others</option>
+                                        </select>
+                                        <label for="category">Category</label>
+                                        <i class="field-icon fa-solid fa-tag"></i>
+                                        <span class="field-error"></span>
+                                    </div>
+
+                                    <div class="float-group select-group" data-field="paidBy">
+                                        <select id="paidBy" required>
+                                            <option value="" disabled selected hidden></option>
+                                        </select>
+                                        <label for="paidBy">Paid By</label>
+                                        <i class="field-icon fa-solid fa-user"></i>
+                                        <span class="field-error"></span>
+                                    </div>
+
+                                    <div class="float-group" data-field="date">
+                                        <input type="date" id="date" placeholder=" " required>
+                                        <label for="date">Expense Date</label>
+                                        <i class="field-icon fa-solid fa-calendar"></i>
+                                        <span class="field-error"></span>
+                                    </div>
+
+                                    <div class="float-group select-group" data-field="paymentMethod">
+                                        <select id="paymentMethod" required>
+                                            <option value="" disabled selected hidden></option>
+                                            <option>Cash</option>
+                                            <option>UPI</option>
+                                            <option>Debit Card</option>
+                                            <option>Credit Card</option>
+                                            <option>Bank Transfer</option>
+                                        </select>
+                                        <label for="paymentMethod">Payment Method</label>
+                                        <i class="field-icon fa-solid fa-credit-card"></i>
+                                        <span class="field-error"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="section-title">
+                                    <i class="fa-solid fa-note-sticky"></i>
+                                    Additional Info
+                                </h3>
+
+                                <div class="float-group full-width" data-field="expenseFor">
+                                    <input type="text" id="expenseFor" placeholder=" ">
+                                    <label for="expenseFor">Expense For (optional)</label>
+                                    <i class="field-icon fa-solid fa-bullseye"></i>
+                                </div>
+
+                                <div class="float-group full-width textarea-group" data-field="notes">
+                                    <textarea id="notes" placeholder=" " rows="4"></textarea>
+                                    <label for="notes">Notes (optional)</label>
+                                    <span class="field-error"></span>
+                                </div>
+                            </div>
+
+                            <div class="button-group">
+                                <button type="submit" class="btn-submit" id="submitBtn">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    <span>Save Expense</span>
+                                    <div class="btn-loader" style="display:none;">
+                                        <i class="fa-solid fa-spinner fa-spin"></i>
+                                    </div>
+                                </button>
+                                <button type="reset" class="btn-reset" id="resetBtn">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    Reset
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- Receipt Upload Sidebar -->
+                    <div class="upload-sidebar slide-up slide-up-delay-2">
+
+                        <div class="panel-card upload-card">
+                            <h3 class="section-title">
+                                <i class="fa-solid fa-file-image"></i>
+                                Upload Receipt
+                            </h3>
+                            <p class="upload-hint">Drag & drop or click to upload bill image or PDF</p>
+
+                            <div class="dropzone" id="dropzone">
+                                <input type="file" id="receipt" accept="image/*,.pdf" hidden>
+                                <div class="dropzone-content" id="dropzoneContent">
+                                    <div class="dropzone-icon">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </div>
+                                    <p class="dropzone-text">Drop your receipt here</p>
+                                    <span class="dropzone-sub">PNG, JPG, WEBP or PDF · Max 5MB</span>
+                                    <button type="button" class="btn-browse" id="browseBtn">Browse Files</button>
+                                </div>
+                                <div class="preview-area" id="previewArea" style="display:none;">
+                                    <img id="previewImage" alt="Receipt preview" style="display:none;">
+                                    <div class="pdf-preview" id="pdfPreview" style="display:none;">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                        <span id="pdfName"></span>
+                                    </div>
+                                    <button type="button" class="btn-remove-file" id="removeFileBtn">
+                                        <i class="fa-solid fa-trash"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-card tips-card">
+                            <h3 class="section-title">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                Quick Tips
+                            </h3>
+                            <ul class="tips-list">
+                                <li><i class="fa-solid fa-check"></i> Expenses are split equally among all flat members</li>
+                                <li><i class="fa-solid fa-check"></i> Upload a receipt for easy reference later</li>
+                                <li><i class="fa-solid fa-check"></i> Settlements update automatically after saving</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/member/add-expense.js"></script>
+
+</body>
+
+</html>

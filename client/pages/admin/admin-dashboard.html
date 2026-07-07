@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li class="active">
+                    <a href="admin-dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-member.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Add Member</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="member-management.html">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expense-history.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement-history.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/admin-login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Admin Dashboard</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Admin">
+                            <div class="profile-info">
+                                <h4 id="adminName">Admin</h4>
+                                <small>Administrator</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/admin-login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <!-- Welcome -->
+                <div class="welcome-card slide-up">
+                    <div class="welcome-text">
+                        <p class="welcome-date" id="currentDate"></p>
+                        <h2 id="welcomeText">Welcome back 👋</h2>
+                        <p id="welcomeSubtitle">Manage your flat, members, expenses, and settlements.</p>
+                    </div>
+                    <div class="welcome-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                        <a href="add-member.html" class="btn-primary">
+                            <i class="fa-solid fa-user-plus"></i> Add Member
+                        </a>
+                        <div class="share-code-container" style="display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); padding: 8px 16px; border-radius: var(--radius-md); box-shadow: var(--shadow-xs);">
+                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Flat Share Code:</span>
+                            <strong id="flatCodeDisplay" style="font-size: 14px; color: var(--primary); font-family: monospace; letter-spacing: 0.05em;">—</strong>
+                            <button id="copyCodeBtn" title="Copy Code" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: color var(--transition);">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                        <button class="btn-secondary" id="refreshBtn">
+                            <i class="fa-solid fa-rotate"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="stat-card slide-up slide-up-delay-1">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon purple"><i class="fa-solid fa-users"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Members</span>
+                                <h2 class="stat-value" id="totalMembers">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card slide-up slide-up-delay-2">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon green"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Expenses</span>
+                                <h2 class="stat-value" id="totalAmount">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card slide-up slide-up-delay-3">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon blue"><i class="fa-solid fa-receipt"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Expense Count</span>
+                                <h2 class="stat-value" id="totalExpenses">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card slide-up slide-up-delay-4">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon orange"><i class="fa-solid fa-user-clock"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Pending Requests</span>
+                                <h2 class="stat-value" id="pendingRequests">0</h2>
+                                <a href="add-member.html" class="stat-link">Review <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Financial Cards (Admin as Participant) -->
+                    <div class="stat-card slide-up slide-up-delay-1" id="cardSpent" style="cursor: pointer;">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon purple">
+                                <i class="fa-solid fa-coins"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">You Spent</span>
+                                <h2 class="stat-value" id="totalPaid">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card slide-up slide-up-delay-2" id="cardOwe" style="cursor: pointer;">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon red">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">You Owe</span>
+                                <h2 class="stat-value" id="totalOwe">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card slide-up slide-up-delay-3" id="cardReceive" style="cursor: pointer;">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon green">
+                                <i class="fa-solid fa-arrow-down"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Owed To You</span>
+                                <h2 class="stat-value" id="totalReceive">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card slide-up slide-up-delay-4" id="cardNet" style="cursor: pointer;">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon purple" id="netBalanceIcon">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Net Balance</span>
+                                <h2 class="stat-value" id="netBalance">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="panel-card slide-up">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-bolt"></i> Quick Actions</h3>
+                    </div>
+                    <div class="quick-actions">
+                        <a href="add-member.html" class="quick-action-btn">
+                            <i class="fa-solid fa-user-plus"></i><span>Add Member</span>
+                        </a>
+                        <a href="../member/add-expense.html" class="quick-action-btn">
+                            <i class="fa-solid fa-plus"></i><span>Add Expense</span>
+                        </a>
+                        <a href="member-management.html" class="quick-action-btn">
+                            <i class="fa-solid fa-users"></i><span>Manage Members</span>
+                        </a>
+                        <a href="expense-history.html" class="quick-action-btn">
+                            <i class="fa-solid fa-receipt"></i><span>Expense History</span>
+                        </a>
+                        <a href="settlement-history.html" class="quick-action-btn">
+                            <i class="fa-solid fa-handshake"></i><span>Settlements</span>
+                        </a>
+                        <a href="../member/monthly-summary.html" class="quick-action-btn">
+                            <i class="fa-solid fa-chart-column"></i><span>Monthly Report</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pending Join Requests -->
+                <div class="panel-card slide-up" id="pendingRequestsPanel">
+                    <div class="section-header">
+                        <div>
+                            <h3><i class="fa-solid fa-user-clock"></i> Pending Join Requests</h3>
+                            <p class="section-subtitle">Approve new members waiting to join your flat</p>
+                        </div>
+                        <a href="add-member.html" class="view-all-link" id="pendingViewAll" style="display:none;">
+                            View All <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="pending-requests-list" id="pendingRequestsList">
+                        <div class="skeleton" style="height:72px; border-radius:12px;"></div>
+                    </div>
+
+                    <div class="empty-state compact" id="pendingRequestsEmpty" style="display:none;">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <h4>All caught up</h4>
+                        <p>No members waiting for approval.</p>
+                    </div>
+                </div>
+
+                <div class="bottom-row">
+                    <!-- Recent Expenses -->
+                    <div class="panel-card">
+                        <div class="section-header">
+                            <div>
+                                <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Expenses</h3>
+                                <p class="section-subtitle">Latest flat transactions</p>
+                            </div>
+                            <a href="expense-history.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                        <div class="table-wrapper" id="expenseTableWrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Expense</th>
+                                        <th>Member</th>
+                                        <th>Amount</th>
+                                        <th>Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentExpenseBody">
+                                    <tr><td colspan="5"><div class="skeleton" style="height:48px;"></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state" id="expenseEmpty" style="display:none;">
+                            <i class="fa-solid fa-receipt"></i>
+                            <h4>No expenses yet</h4>
+                            <p>Expenses will appear here once members start adding them.</p>
+                        </div>
+                    </div>
+
+                    <!-- Members -->
+                    <div class="panel-card">
+                        <div class="section-header">
+                            <div>
+                                <h3><i class="fa-solid fa-users"></i> Members</h3>
+                                <p class="section-subtitle">Flat group members</p>
+                            </div>
+                            <a href="member-management.html" class="view-all-link">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                        <div class="filter-group compact">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="memberSearch" placeholder="Search members...">
+                        </div>
+                        <div class="table-wrapper" id="memberTableWrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="memberTableBody">
+                                    <tr><td colspan="3"><div class="skeleton" style="height:48px;"></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state" id="memberEmpty" style="display:none;">
+                            <i class="fa-solid fa-users"></i>
+                            <h4>No members found</h4>
+                            <p>Add members to get started.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- Confirm Dialog -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <div class="confirm-content">
+            <div class="confirm-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h3 id="confirmTitle">Confirm Action</h3>
+            <p id="confirmMessage">Are you sure?</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="confirmCancel">Cancel</button>
+                <button class="btn-confirm" id="confirmOk">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/admin/admin-dashboard.js"></script>
+
+</body>
+
+</html>

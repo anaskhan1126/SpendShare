@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense History | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/admin/expense-history.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="admin-dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-member.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Add Member</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="member-management.html">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="expense-history.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement-history.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/admin-login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Expense History</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Admin">
+                            <div class="profile-info">
+                                <h4 id="adminName">Admin</h4>
+                                <small>Administrator</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/admin-login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <div class="page-header slide-up">
+                    <div>
+                        <h2>All Expenses</h2>
+                        <p>View and manage all flat expense records.</p>
+                    </div>
+                    <div class="export-btns">
+                        <button class="btn-export" id="excelBtn">
+                            <i class="fa-solid fa-file-excel"></i> Excel
+                        </button>
+                        <button class="btn-export" id="pdfBtn">
+                            <i class="fa-solid fa-file-pdf"></i> PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-row slide-up slide-up-delay-1">
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon purple"><i class="fa-solid fa-receipt"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Total Records</span>
+                            <h3 id="totalRecords">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon green"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Filtered Amount</span>
+                            <h3 id="totalAmount">₹0.00</h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon blue"><i class="fa-solid fa-filter"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Showing</span>
+                            <h3 id="showingRange">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card slide-up slide-up-delay-2">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="expenseSearch" placeholder="Search expenses...">
+                        </div>
+                        <div class="filter-group">
+                            <i class="fa-solid fa-tag"></i>
+                            <select id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option>Food</option>
+                                <option>Groceries</option>
+                                <option>Electricity</option>
+                                <option>Internet</option>
+                                <option>Gas</option>
+                                <option>Water Bill</option>
+                                <option>Travel</option>
+                                <option>Medical</option>
+                                <option>Shopping</option>
+                                <option>Others</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <i class="fa-solid fa-credit-card"></i>
+                            <select id="paymentFilter">
+                                <option value="">All Payments</option>
+                                <option>Cash</option>
+                                <option>UPI</option>
+                                <option>Debit Card</option>
+                                <option>Credit Card</option>
+                                <option>Bank Transfer</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <i class="fa-solid fa-calendar"></i>
+                            <input type="month" id="monthFilter">
+                        </div>
+                        <div class="filter-group">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <input type="date" id="dateFilter">
+                        </div>
+                        <button class="btn-clear" id="clearFilters">
+                            <i class="fa-solid fa-xmark"></i> Clear
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper" id="tableWrapper">
+                        <table class="data-table" id="expenseTable">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-sort="date">Date <i class="fa-solid fa-sort sort-icon"></i></th>
+                                    <th class="sortable" data-sort="title">Expense <i class="fa-solid fa-sort sort-icon"></i></th>
+                                    <th>Category</th>
+                                    <th class="sortable" data-sort="paidBy">Paid By <i class="fa-solid fa-sort sort-icon"></i></th>
+                                    <th class="sortable" data-sort="amount">Amount <i class="fa-solid fa-sort sort-icon"></i></th>
+                                    <th>Payment</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenseTableBody">
+                                <tr><td colspan="7"><div class="skeleton" style="height:48px;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="tableEmpty" style="display:none;">
+                        <i class="fa-solid fa-receipt"></i>
+                        <h4>No expenses found</h4>
+                        <p>Try adjusting your filters.</p>
+                    </div>
+
+                    <div class="pagination" id="pagination"></div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="expenseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Expense Details</h2>
+                <button class="modal-close" id="modalClose" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Expense</span>
+                        <span class="detail-value" id="detailExpense">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Amount</span>
+                        <span class="detail-value amount-highlight" id="detailAmount">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Category</span>
+                        <span class="detail-value" id="detailCategory">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Paid By</span>
+                        <span class="detail-value" id="detailPaidBy">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Date</span>
+                        <span class="detail-value" id="detailDate">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Payment</span>
+                        <span class="detail-value" id="detailPayment">—</span>
+                    </div>
+                </div>
+                <div class="detail-notes">
+                    <span class="detail-label">Notes</span>
+                    <p id="detailNotes">—</p>
+                </div>
+                <div class="receipt-preview" id="receiptPreview" style="display:none;">
+                    <span class="detail-label">Receipt</span>
+                    <img id="receiptImage" alt="Receipt">
+                    <a id="receiptPdfLink" class="receipt-pdf-link" style="display:none;" target="_blank">
+                        <i class="fa-solid fa-file-pdf"></i> View PDF Receipt
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/admin/expense-history.js"></script>
+
+</body>
+
+</html>

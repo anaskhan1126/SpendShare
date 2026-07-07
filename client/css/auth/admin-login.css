@@ -1,0 +1,92 @@
+/* ===========================
+   ADMIN LOGIN / REGISTER
+   Extends auth.css
+=========================== */
+
+@import url("./auth.css");
+
+/* ===========================
+   ADMIN CONTAINER
+=========================== */
+.admin-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 96px 24px 48px;
+}
+
+/* ===========================
+   ADMIN CARD
+=========================== */
+.admin-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 40px 36px;
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(124,58,237,0.04);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Top accent line */
+.admin-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.admin-card--wide { max-width: 480px; }
+
+.admin-card h2 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-align: center;
+    margin-bottom: 6px;
+    color: var(--text);
+}
+
+.admin-card > p {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    line-height: 1.6;
+}
+
+/* ===========================
+   BACK BUTTON (nav)
+=========================== */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    transition: all var(--transition);
+}
+
+.back-btn:hover {
+    border-color: var(--primary-border);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 576px) {
+    .admin-card { padding: 32px 22px; }
+}

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settlement | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/member/settlement.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-expense.html">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Expense</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expenses.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="settlement.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="members.html">
+                        <i class="fa-solid fa-users-line"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Settlement</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Profile">
+                            <div class="profile-info">
+                                <h4 id="memberName">Member</h4>
+                                <small>Flat Member</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <!-- Page Header -->
+                <div class="page-header slide-up">
+                    <div>
+                        <h2>Settlement Overview</h2>
+                        <p>Minimum transactions to settle all balances — who pays whom.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-action" id="refreshBtn">
+                            <i class="fa-solid fa-rotate"></i> Refresh
+                        </button>
+                        <button class="btn-action" id="printBtn">
+                            <i class="fa-solid fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="stat-card slide-up slide-up-delay-1" id="cardOwe">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon red">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">You Owe</span>
+                                <h2 class="stat-value" id="totalOwe">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card slide-up slide-up-delay-2" id="cardReceive">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon green">
+                                <i class="fa-solid fa-arrow-down"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">You'll Receive</span>
+                                <h2 class="stat-value" id="totalReceive">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card slide-up slide-up-delay-3" id="cardNet">
+                        <div class="stat-card-skeleton skeleton-card skeleton"></div>
+                        <div class="stat-card-content" style="display:none;">
+                            <div class="stat-icon purple">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Net Balance</span>
+                                <h2 class="stat-value" id="netBalance">₹0.00</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Settlement Suggestions -->
+                <div class="panel-card smart-section slide-up slide-up-delay-2">
+                    <div class="section-header">
+                        <div>
+                            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Smart Settlement</h3>
+                            <p class="section-subtitle">Optimized minimum payments to clear all balances</p>
+                        </div>
+                        <span class="pending-badge" id="pendingCount">0 pending</span>
+                    </div>
+
+                    <div id="smartSettlementList" class="smart-settlement-list">
+                        <div class="skeleton" style="height:80px; margin-bottom:10px;"></div>
+                        <div class="skeleton" style="height:80px;"></div>
+                    </div>
+
+                    <div class="empty-state" id="smartEmpty" style="display:none;">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <h4>All settled up!</h4>
+                        <p>No pending settlements. Everyone's balances are clear.</p>
+                    </div>
+                </div>
+
+                <!-- Filters + Table -->
+                <div class="panel-card slide-up slide-up-delay-3">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-table"></i> Who Pays Whom</h3>
+                    </div>
+
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="settlementSearch" placeholder="Search member...">
+                        </div>
+                        <div class="filter-group">
+                            <i class="fa-solid fa-filter"></i>
+                            <select id="statusFilter">
+                                <option value="all">All Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Paid">Paid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper" id="tableWrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th></th>
+                                    <th>To</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="settlementTableBody">
+                                <tr><td colspan="6"><div class="skeleton" style="height:48px;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="tableEmpty" style="display:none;">
+                        <i class="fa-solid fa-handshake"></i>
+                        <h4>No settlements found</h4>
+                        <p>Try adjusting your search or filters.</p>
+                    </div>
+                </div>
+
+                <!-- Settlement Cards (mobile-friendly view) -->
+                <div class="panel-card slide-up">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-layer-group"></i> Settlement Cards</h3>
+                    </div>
+                    <div id="settlementCards" class="settlement-cards-grid"></div>
+                    <div class="empty-state" id="cardsEmpty" style="display:none;">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <h4>No settlement cards</h4>
+                        <p>Settlement cards will appear when transactions are pending.</p>
+                    </div>
+                </div>
+
+                <!-- History -->
+                <div class="panel-card slide-up">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-clock-rotate-left"></i> Settlement History</h3>
+                        <p class="section-subtitle">Completed payments</p>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <tr><td colspan="5"><div class="skeleton" style="height:48px;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="historyEmpty" style="display:none;">
+                        <i class="fa-solid fa-history"></i>
+                        <h4>No history yet</h4>
+                        <p>Completed settlements will appear here.</p>
+                    </div>
+                </div>
+
+                <!-- Section 2: All Flat Settlements (Admin Only) -->
+                <div class="panel-card admin-only-section" id="adminAllFlatSettlementsPanel" style="display: none; margin-top: 30px;">
+                    <div class="section-header">
+                        <div>
+                            <h3><i class="fa-solid fa-building-user"></i> All Flat Settlements (Admin Management)</h3>
+                            <p class="section-subtitle">Overview of all settlements for all members in the flat</p>
+                        </div>
+                        <div class="header-actions" style="display: flex; gap: 10px;">
+                            <button class="btn-action" id="adminRefreshBtn" style="padding: 6px 12px; font-size: 13px;">
+                                <i class="fa-solid fa-rotate"></i> Refresh
+                            </button>
+                            <button class="btn-action" id="adminExportExcelBtn" style="padding: 6px 12px; font-size: 13px;">Export Excel</button>
+                            <button class="btn-action" id="adminExportPdfBtn" style="padding: 6px 12px; font-size: 13px;">Export PDF</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-row" style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                        <div class="filter-group" style="flex: 1; min-width: 200px; position: relative;">
+                            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+                            <input type="text" id="adminSettlementSearch" placeholder="Search member..." style="width: 100%; padding: 10px 12px 10px 35px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-main);">
+                        </div>
+                        <div class="filter-group" style="width: 180px;">
+                            <select id="adminStatusFilter" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-main);">
+                                <option value="all">All Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Paid">Paid</option>
+                            </select>
+                        </div>
+                        <div class="filter-group" style="width: 180px;">
+                            <input type="date" id="adminDateFilter" placeholder="Filter date..." style="width: 100%; padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-main);">
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper" id="adminTableWrapper" style="display: block;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>From</th>
+                                    <th></th>
+                                    <th>To</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminSettlementTableBody">
+                                <tr><td colspan="7"><div class="skeleton" style="height:48px;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="adminTableEmpty" style="display:none;">
+                        <i class="fa-solid fa-handshake"></i>
+                        <h4>No settlements found</h4>
+                        <p>Try adjusting your search or filters.</p>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- Confirm Dialog -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <div class="confirm-content">
+            <div class="confirm-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h3 id="confirmTitle">Confirm Action</h3>
+            <p id="confirmMessage">Are you sure?</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="confirmCancel">Cancel</button>
+                <button class="btn-confirm" id="confirmOk">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/member/settlement.js"></script>
+
+</body>
+
+</html>

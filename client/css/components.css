@@ -1,0 +1,171 @@
+/* ===========================
+   BUTTONS
+=========================== */
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    padding:12px 22px;
+
+    border:none;
+    border-radius:10px;
+
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-primary{
+
+    background:var(--primary);
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-dark);
+
+}
+
+.btn-success{
+
+    background:var(--secondary);
+    color:white;
+
+}
+
+.btn-success:hover{
+
+    background:var(--secondary-dark);
+
+}
+
+.btn-danger{
+
+    background:var(--danger);
+    color:white;
+
+}
+
+.btn-danger:hover{
+
+    opacity:.9;
+
+}
+
+/* ===========================
+   CARD
+=========================== */
+
+.card{
+
+    background:white;
+
+    border-radius:var(--radius-lg);
+
+    padding:20px;
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ===========================
+   INPUT
+=========================== */
+
+.input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+}
+
+.input:focus{
+
+    border-color:var(--primary);
+
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.table th{
+
+    background:#f8fafc;
+
+    padding:15px;
+
+    text-align:left;
+
+}
+
+.table td{
+
+    padding:15px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+/* ===========================
+   BADGES
+=========================== */
+
+.badge{
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.badge-success{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.badge-danger{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+.badge-warning{
+
+    background:#fef3c7;
+
+    color:#d97706;
+
+}

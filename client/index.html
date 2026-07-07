@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SpendShare — The smartest way to manage flat expenses. Track, split, and settle shared household costs with your flatmates effortlessly.">
+    <meta name="keywords" content="flat expense management, roommate expenses, split bills, expense tracker, shared living">
+    <meta property="og:title" content="SpendShare — Manage Flat Expenses Smartly">
+    <meta property="og:description" content="Track shared expenses, settle balances, and generate reports — all in one place.">
+    <title>SpendShare — Manage Flat Expenses Smartly</title>
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Animated Background -->
+    <div class="landing-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Navbar -->
+    <header class="landing-nav" id="navbar">
+        <a href="index.html" class="nav-brand">
+            <i class="fa-solid fa-wallet"></i>
+            <span>SpendShare</span>
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="pages/auth/login.html" class="nav-link-muted">Member Login</a>
+            <a href="pages/auth/admin-login.html" class="nav-link-muted">Admin Login</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <a href="pages/auth/member-register.html" class="btn btn-ghost hide-mobile">Sign Up</a>
+            <a href="pages/auth/admin-register.html" class="btn btn-primary hide-mobile">
+                <i class="fa-solid fa-building"></i> Create Flat
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                <i class="fa-solid fa-sparkles"></i>
+                Flat expense management, simplified
+            </div>
+
+            <h1>
+                Manage Flat Expenses
+                <span class="gradient-text">Smartly</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                SpendShare helps flatmates track shared expenses, split bills fairly,
+                settle balances with minimum transactions, and generate beautiful reports —
+                all in one modern dashboard.
+            </p>
+
+            <div class="hero-cta">
+                <a href="pages/auth/login.html" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login as Member
+                </a>
+                <a href="pages/auth/admin-login.html" class="btn btn-secondary btn-lg">
+                    <i class="fa-solid fa-user-shield"></i> Admin Login
+                </a>
+            </div>
+
+            <div class="hero-cta-secondary">
+                <a href="pages/auth/member-register.html" class="text-link">
+                    <i class="fa-solid fa-user-plus"></i> Sign Up as Member
+                </a>
+                <span class="dot"></span>
+                <a href="pages/auth/admin-register.html" class="text-link">
+                    <i class="fa-solid fa-building"></i> Create New Flat
+                </a>
+            </div>
+
+            <div class="hero-trust">
+                <div class="trust-avatars">
+                    <div class="trust-avatar">RK</div>
+                    <div class="trust-avatar">AS</div>
+                    <div class="trust-avatar">PV</div>
+                    <div class="trust-avatar">MN</div>
+                </div>
+                <p class="trust-text">
+                    <strong>500+</strong> flatmates using SpendShare daily
+                </p>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-visual-inner">
+
+                <!-- Floating mini cards -->
+                <div class="preview-float-card preview-float-card--1">
+                    <div class="float-card-label">This month</div>
+                    <div class="float-card-value">₹24,580</div>
+                    <span class="float-card-badge green">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +12%
+                    </span>
+                </div>
+
+                <div class="preview-float-card preview-float-card--2">
+                    <div class="float-card-label">You owe</div>
+                    <div class="float-card-value">₹1,840</div>
+                    <span class="float-card-badge red">
+                        <i class="fa-solid fa-circle-arrow-right"></i> 2 payments
+                    </span>
+                </div>
+
+                <!-- Main dashboard preview -->
+                <div class="dashboard-preview">
+                    <div class="preview-header">
+                        <div class="preview-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span class="preview-title">SpendShare Dashboard</span>
+                    </div>
+                    <div class="preview-body">
+                        <div class="preview-stat-row">
+                            <div class="preview-stat">
+                                <small>Total Expenses</small>
+                                <strong>₹24,580</strong>
+                                <span class="stat-up"><i class="fa-solid fa-arrow-up"></i> 12%</span>
+                            </div>
+                            <div class="preview-stat">
+                                <small>Members</small>
+                                <strong>5</strong>
+                                <span class="stat-up"><i class="fa-solid fa-circle-check"></i> All active</span>
+                            </div>
+                            <div class="preview-stat">
+                                <small>Pending</small>
+                                <strong>₹1,200</strong>
+                                <span class="stat-up" style="color:var(--warning);">3 due</span>
+                            </div>
+                        </div>
+                        <div class="preview-chart">
+                            <div class="bar" style="--h: 60%"></div>
+                            <div class="bar" style="--h: 85%"></div>
+                            <div class="bar" style="--h: 45%"></div>
+                            <div class="bar" style="--h: 70%"></div>
+                            <div class="bar" style="--h: 55%"></div>
+                            <div class="bar" style="--h: 90%"></div>
+                        </div>
+                        <div class="preview-list">
+                            <div class="preview-item">
+                                <div class="preview-item-left">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                    <span>Groceries</span>
+                                </div>
+                                <span class="preview-item-amount">₹850</span>
+                            </div>
+                            <div class="preview-item">
+                                <div class="preview-item-left">
+                                    <i class="fa-solid fa-bolt"></i>
+                                    <span>Electricity</span>
+                                </div>
+                                <span class="preview-item-amount">₹1,240</span>
+                            </div>
+                            <div class="preview-item">
+                                <div class="preview-item-left">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span>Dinner</span>
+                                </div>
+                                <span class="preview-item-amount">₹620</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-glow"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-bar-inner">
+            <div class="stat-item">
+                <span class="stat-item-number" data-target="500" data-suffix="+">0+</span>
+                <span class="stat-item-label">Active Flatmates</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-item-number" data-target="120" data-suffix="+">0+</span>
+                <span class="stat-item-label">Flats Registered</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-item-number" data-prefix="₹" data-target="5000000" data-suffix="+">₹0+</span>
+                <span class="stat-item-label">Expenses Tracked</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-item-number" data-target="99" data-suffix="%">0%</span>
+                <span class="stat-item-label">Satisfaction Rate</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="section-header fade-up">
+            <span class="section-label"><i class="fa-solid fa-stars"></i> Features</span>
+            <h2>Everything your flat needs</h2>
+            <p>Powerful tools designed for shared living — simple enough for everyone, smart enough for anything.</p>
+        </div>
+
+        <div class="features-grid">
+            <article class="feature-card fade-up">
+                <div class="feature-icon purple"><i class="fa-solid fa-receipt"></i></div>
+                <h3>Expense Tracking</h3>
+                <p>Log every shared expense with categories, payment methods, dates, and receipt uploads.</p>
+                <div class="feature-card-arrow">
+                    Learn more <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </article>
+            <article class="feature-card fade-up delay-1">
+                <div class="feature-icon green"><i class="fa-solid fa-handshake"></i></div>
+                <h3>Smart Settlement</h3>
+                <p>Our algorithm finds the minimum number of transactions needed to settle all balances instantly.</p>
+                <div class="feature-card-arrow">
+                    Learn more <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </article>
+            <article class="feature-card fade-up delay-2">
+                <div class="feature-icon blue"><i class="fa-solid fa-chart-column"></i></div>
+                <h3>Monthly Reports</h3>
+                <p>Visual summaries and exportable PDF/Excel reports to see exactly where your flat's money goes.</p>
+                <div class="feature-card-arrow">
+                    Learn more <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </article>
+            <article class="feature-card fade-up delay-3">
+                <div class="feature-icon orange"><i class="fa-solid fa-file-image"></i></div>
+                <h3>Bill Upload</h3>
+                <p>Attach bills and receipts to expenses with drag & drop for transparent, accountable record-keeping.</p>
+                <div class="feature-card-arrow">
+                    Learn more <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-header fade-up">
+            <span class="section-label"><i class="fa-solid fa-circle-play"></i> Workflow</span>
+            <h2>Up and running in minutes</h2>
+            <p>From creating your flat to settling the last rupee — it's that simple.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step fade-up">
+                <div class="step-num">1</div>
+                <h3>Create your flat</h3>
+                <p>Admin signs up, names the flat, and gets a unique join code like <code>SPD8X4Q</code>.</p>
+            </div>
+            <div class="step fade-up delay-1">
+                <div class="step-num">2</div>
+                <h3>Invite flatmates</h3>
+                <p>Members register with the flat code. Admin approves each request in one click.</p>
+            </div>
+            <div class="step fade-up delay-2">
+                <div class="step-num">3</div>
+                <h3>Track &amp; settle</h3>
+                <p>Add expenses, view balances, and settle up with smart minimum-transaction suggestions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner fade-up">
+        <div class="cta-inner">
+            <h2>Ready to simplify your flat finances?</h2>
+            <p>Join flatmates already using SpendShare to stay organized, stress-free, and in control.</p>
+            <div class="cta-buttons">
+                <a href="pages/auth/admin-register.html" class="btn btn-white btn-lg">
+                    <i class="fa-solid fa-building"></i> Create New Flat
+                </a>
+                <a href="pages/auth/member-register.html" class="btn btn-outline-white btn-lg">
+                    <i class="fa-solid fa-user-plus"></i> Join with Flat Code
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="nav-brand">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>SpendShare</span>
+                </a>
+                <p>Manage flat expenses smartly. Built for people who share more than just a roof.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+            </div>
+            <div class="footer-col">
+                <h4>Account</h4>
+                <a href="pages/auth/login.html">Member Login</a>
+                <a href="pages/auth/admin-login.html">Admin Login</a>
+                <a href="pages/auth/member-register.html">Sign Up</a>
+            </div>
+            <div class="footer-col">
+                <h4>Get Started</h4>
+                <a href="pages/auth/admin-register.html">Create New Flat</a>
+                <a href="pages/auth/member-register.html">Join a Flat</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> SpendShare. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/shared.js"></script>
+    <script src="js/landing.js"></script>
+
+</body>
+
+</html>

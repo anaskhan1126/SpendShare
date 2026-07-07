@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Member | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/admin/add-member.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="admin-dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="add-member.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Add Member</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="member-management.html">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expense-history.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement-history.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/admin-login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Add Member</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Admin">
+                            <div class="profile-info">
+                                <h4 id="adminName">Admin</h4>
+                                <small>Administrator</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/admin-login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <div class="page-header slide-up">
+                    <div>
+                        <h2>Member Management</h2>
+                        <p>Review registration requests and add members manually.</p>
+                        <div class="flat-info-banner hidden" id="flatInfoBanner">
+                            <i class="fa-solid fa-building"></i>
+                            <span id="flatInfoText"></span>
+                            <button type="button" class="copy-flat-code-btn hidden" id="copyFlatCodeBtn" title="Copy flat code">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn-refresh" id="refreshBtn">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                </div>
+
+                <!-- Pending Requests -->
+                <div class="panel-card slide-up slide-up-delay-1">
+                    <div class="section-header">
+                        <div>
+                            <h3><i class="fa-solid fa-user-clock"></i> Pending Registration Requests</h3>
+                            <p class="section-subtitle">Approve or reject new member sign-up requests</p>
+                        </div>
+                        <span class="pending-badge" id="requestCount">0 pending</span>
+                    </div>
+
+                    <div class="table-wrapper" id="requestTableWrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Contact</th>
+                                    <th class="flat-col hidden">Flat</th>
+                                    <th>Requested</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requestTableBody">
+                                <tr><td colspan="5"><div class="skeleton" style="height:48px;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="requestEmpty" style="display:none;">
+                        <i class="fa-solid fa-inbox"></i>
+                        <h4>No pending requests</h4>
+                        <p>New registration requests will appear here.</p>
+                    </div>
+                </div>
+
+                <!-- Manual Add -->
+                <div class="panel-card slide-up slide-up-delay-2">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-user-plus"></i> Add Member Manually</h3>
+                        <p class="section-subtitle">Create a new flat member account directly</p>
+                    </div>
+
+                    <form id="addMemberForm" novalidate>
+                        <div class="form-grid">
+
+                            <div class="float-group" data-field="name">
+                                <input type="text" id="name" placeholder=" " required>
+                                <label for="name">Full Name</label>
+                                <i class="field-icon fa-solid fa-user"></i>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <div class="float-group" data-field="username">
+                                <input type="text" id="username" placeholder=" " required>
+                                <label for="username">Username</label>
+                                <i class="field-icon fa-solid fa-at"></i>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <div class="float-group" data-field="email">
+                                <input type="email" id="email" placeholder=" " required>
+                                <label for="email">Email</label>
+                                <i class="field-icon fa-solid fa-envelope"></i>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <div class="float-group" data-field="phone">
+                                <input type="text" id="phone" placeholder=" " required>
+                                <label for="phone">Phone</label>
+                                <i class="field-icon fa-solid fa-phone"></i>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <div class="float-group password-group full-width" data-field="password">
+                                <input type="password" id="password" placeholder=" " required minlength="6">
+                                <label for="password">Password</label>
+                                <i class="field-icon fa-solid fa-lock"></i>
+                                <button type="button" class="toggle-password" data-target="password" aria-label="Show password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <span class="field-error"></span>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span>Add Member</span>
+                            <div class="btn-loader" style="display:none;">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- Confirm Dialog -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <div class="confirm-content">
+            <div class="confirm-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h3 id="confirmTitle">Confirm Action</h3>
+            <p id="confirmMessage">Are you sure?</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="confirmCancel">Cancel</button>
+                <button class="btn-confirm" id="confirmOk">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/admin/add-member.js"></script>
+
+</body>
+
+</html>

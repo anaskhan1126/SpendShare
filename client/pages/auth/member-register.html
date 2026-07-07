@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Flat | SpendShare</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../../css/auth/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="auth-bg"></div>
+
+<header class="header">
+    <a href="../../index.html" class="logo">
+        <i class="fa-solid fa-wallet"></i>
+        <span>SpendShare</span>
+    </a>
+    <div class="header-actions">
+        <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="login.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span class="hide-mobile">Member Login</span>
+        </a>
+    </div>
+</header>
+
+<main class="login-container centered">
+
+    <div class="login-card login-card--register slide-up" id="registerCard">
+
+        <h2>Join Your Flat</h2>
+        <p>Enter your flat code and details. Your admin must approve before you can sign in.</p>
+
+        <form id="memberRegisterForm">
+
+            <div class="input-box">
+                <label for="flatCode">Flat Code</label>
+                <div class="input-field" id="flatCodeField">
+                    <i class="fa-solid fa-key"></i>
+                    <input
+                        type="text"
+                        id="flatCode"
+                        placeholder="e.g. SPD8X4Q"
+                        required
+                        maxlength="10"
+                        autocomplete="off"
+                        spellcheck="false">
+                    <span class="flat-code-status" id="flatCodeStatus" aria-hidden="true"></span>
+                </div>
+                <p class="field-hint" id="flatCodeHint">Ask your flat admin for the join code.</p>
+            </div>
+
+            <div class="flat-validated-banner hidden" id="flatValidatedBanner">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Joining <strong id="validatedFlatName"></strong></span>
+            </div>
+
+            <div class="input-box">
+                <label for="name">Full Name</label>
+                <div class="input-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="name" placeholder="Your full name" required autocomplete="name">
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label for="username">Username</label>
+                <div class="input-field">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <input type="text" id="username" placeholder="Choose a username" required autocomplete="username">
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label for="email">Email</label>
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label for="phone">Phone</label>
+                <div class="input-field">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" id="phone" placeholder="10-digit mobile number" required autocomplete="tel">
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label for="password">Password</label>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+                    <i class="fa-solid fa-eye toggle-password" data-target="password" aria-label="Toggle password"></i>
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="confirmPassword" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
+                    <i class="fa-solid fa-eye toggle-password" data-target="confirmPassword" aria-label="Toggle password"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn" id="registerBtn">
+                <i class="fa-solid fa-paper-plane"></i> Send Join Request
+            </button>
+
+            <div class="register-link">
+                <p>Already a member? <a href="login.html">Sign in</a></p>
+            </div>
+        </form>
+    </div>
+
+    <div class="login-card login-card--register slide-up hidden" id="successCard">
+        <div class="success-icon-wrap">
+            <i class="fa-solid fa-hourglass-half"></i>
+        </div>
+
+        <h2>Request Sent!</h2>
+        <p>Your join request for <strong id="successFlatName"></strong> is pending admin approval.</p>
+
+        <div class="pending-notice">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>You will be able to sign in once your flat admin approves your request.</span>
+        </div>
+
+        <button type="button" class="login-btn" id="goLoginBtn">
+            <i class="fa-solid fa-right-to-bracket"></i> Back to Login
+        </button>
+    </div>
+
+</main>
+
+<script src="../../js/shared.js"></script>
+<script src="../../js/auth/member-register.js"></script>
+
+</body>
+</html>

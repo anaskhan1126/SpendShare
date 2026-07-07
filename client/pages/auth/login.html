@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Member Login — Sign in to your SpendShare flat account.">
+    <title>Member Login | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/auth/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="auth-bg"></div>
+
+    <header class="header">
+        <a href="../../index.html" class="logo">
+            <i class="fa-solid fa-wallet"></i>
+            <span>SpendShare</span>
+        </a>
+        <div class="header-actions">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <a href="admin-login.html" class="admin-btn">
+                <i class="fa-solid fa-user-shield"></i>
+                <span class="hide-mobile">Admin Login</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="login-container">
+
+        <!-- Left Panel — Illustration & Features -->
+        <section class="left-panel slide-up">
+            <img src="../../assets/images/image1.png" alt="SpendShare — track shared expenses with your flatmates" loading="lazy">
+            <h1>Split expenses,<br>stay in sync.</h1>
+            <p>
+                Manage shared household expenses with ease. Track purchases,
+                split bills fairly, and settle balances with your flatmates — all in one place.
+            </p>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Track and split every expense</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-handshake"></i>
+                    <span>Smart settlement with minimum transactions</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Monthly reports and spending insights</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Export reports as PDF or Excel</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Panel — Login Form -->
+        <section class="right-panel">
+            <div class="login-card slide-up slide-up-delay-1">
+                <h2>Welcome back 👋</h2>
+                <p>Sign in to your member account</p>
+
+                <form id="loginForm" novalidate>
+
+                    <div class="input-box">
+                        <label for="username">Username</label>
+                        <div class="input-field">
+                            <i class="fa-solid fa-user"></i>
+                            <input
+                                type="text"
+                                id="username"
+                                placeholder="Enter your username"
+                                required
+                                autocomplete="username"
+                                spellcheck="false">
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="password">Password</label>
+                        <div class="input-field">
+                            <i class="fa-solid fa-lock"></i>
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Enter your password"
+                                required
+                                autocomplete="current-password">
+                            <i class="fa-solid fa-eye toggle-password"
+                               data-target="password"
+                               aria-label="Toggle password visibility"
+                               role="button"
+                               tabindex="0"></i>
+                        </div>
+                    </div>
+
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" id="rememberMe">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <button type="submit" class="login-btn" id="loginBtn">
+                        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                    </button>
+
+                    <div class="register-link">
+                        <p>New member? <a href="member-register.html">Join your flat</a></p>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/auth/login.js"></script>
+
+</body>
+
+</html>

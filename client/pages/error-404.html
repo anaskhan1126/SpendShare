@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | SpendShare</title>
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/error-404.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="error-page">
+        <header class="error-header">
+            <a href="../index.html" class="brand">
+                <i class="fa-solid fa-wallet"></i>
+                <span>SpendShare</span>
+            </a>
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <main class="error-main">
+            <div class="error-visual">
+                <div class="glow"></div>
+                <span class="error-code">404</span>
+                <div class="floating-icon icon-1"><i class="fa-solid fa-receipt"></i></div>
+                <div class="floating-icon icon-2"><i class="fa-solid fa-coins"></i></div>
+                <div class="floating-icon icon-3"><i class="fa-solid fa-handshake"></i></div>
+            </div>
+
+            <div class="error-content slide-up">
+                <h1>Page not found</h1>
+                <p>
+                    The page you're looking for doesn't exist or may have been moved.
+                    Let's get you back on track with your flat expenses.
+                </p>
+
+                <div class="error-actions">
+                    <a href="#" class="btn-primary" id="homeBtn">
+                        <i class="fa-solid fa-house"></i> Go to Dashboard
+                    </a>
+                    <button class="btn-secondary" id="backBtn">
+                        <i class="fa-solid fa-arrow-left"></i> Go Back
+                    </button>
+                </div>
+
+                <div class="error-links">
+                    <a href="auth/login.html">Member Login</a>
+                    <span class="dot"></span>
+                    <a href="auth/admin-login.html">Admin Login</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="error-footer">
+            <p>&copy; <span id="year"></span> SpendShare. Split expenses, stay organized.</p>
+        </footer>
+    </div>
+
+    <script src="../js/shared.js"></script>
+    <script src="../js/error-404.js"></script>
+
+</body>
+
+</html>

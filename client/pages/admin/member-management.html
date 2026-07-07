@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Management | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/admin/member-management.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="admin-dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-member.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Add Member</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="member-management.html">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expense-history.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement-history.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/admin-login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Member Management</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Admin">
+                            <div class="profile-info">
+                                <h4 id="adminName">Admin</h4>
+                                <small>Administrator</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/admin-login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <div class="page-header slide-up">
+                    <div>
+                        <h2>All Members</h2>
+                        <p>View, edit, and manage registered flat members.</p>
+                    </div>
+                    <a href="add-member.html" class="btn-add">
+                        <i class="fa-solid fa-user-plus"></i> Add Member
+                    </a>
+                </div>
+
+                <div class="stats-row slide-up slide-up-delay-1">
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon purple"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Total Members</span>
+                            <h3 id="totalMembers">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon green"><i class="fa-solid fa-user-check"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Active Members</span>
+                            <h3 id="activeMembers">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon blue"><i class="fa-solid fa-filter"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Showing</span>
+                            <h3 id="showingCount">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card slide-up slide-up-delay-2">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="searchMember" placeholder="Search by name, email, or phone...">
+                        </div>
+                        <div class="filter-group">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>
+                            <select id="sortFilter">
+                                <option value="name">Sort by Name</option>
+                                <option value="email">Sort by Email</option>
+                                <option value="role">Sort by Role</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper" id="tableWrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Role</th>
+                                    <th>Group</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="memberTableBody">
+                                <tr><td colspan="6"><div class="skeleton" style="height:48px;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="tableEmpty" style="display:none;">
+                        <i class="fa-solid fa-users"></i>
+                        <h4>No members found</h4>
+                        <p>Try adjusting your search or add a new member.</p>
+                        <a href="add-member.html" class="btn-add-empty">
+                            <i class="fa-solid fa-user-plus"></i> Add Member
+                        </a>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-pen"></i> Edit Member</h2>
+                <button class="modal-close" id="modalClose" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="editForm" class="modal-body">
+                <input type="hidden" id="editMemberId">
+                <div class="float-group" data-field="editName">
+                    <input type="text" id="editName" placeholder=" " required>
+                    <label for="editName">Full Name</label>
+                    <i class="field-icon fa-solid fa-user"></i>
+                    <span class="field-error"></span>
+                </div>
+                <div class="float-group" data-field="editEmail">
+                    <input type="email" id="editEmail" placeholder=" " required>
+                    <label for="editEmail">Email</label>
+                    <i class="field-icon fa-solid fa-envelope"></i>
+                    <span class="field-error"></span>
+                </div>
+                <div class="float-group" data-field="editPhone">
+                    <input type="text" id="editPhone" placeholder=" " required>
+                    <label for="editPhone">Phone</label>
+                    <i class="field-icon fa-solid fa-phone"></i>
+                    <span class="field-error"></span>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn-save" id="saveEditBtn">
+                        <i class="fa-solid fa-check"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Dialog -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <div class="confirm-content">
+            <div class="confirm-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 id="confirmTitle">Delete Member</h3>
+            <p id="confirmMessage">Are you sure?</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="confirmCancel">Cancel</button>
+                <button class="btn-confirm danger" id="confirmOk">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/admin/member-management.js"></script>
+
+</body>
+
+</html>

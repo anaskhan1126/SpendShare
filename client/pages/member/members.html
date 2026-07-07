@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/member/members.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-expense.html">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Expense</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expenses.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="members.html">
+                        <i class="fa-solid fa-users-line"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Members</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Profile">
+                            <div class="profile-info">
+                                <h4 id="memberName">Member</h4>
+                                <small>Flat Member</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <!-- Page Header -->
+                <div class="page-header slide-up">
+                    <div>
+                        <h2>Flat Members</h2>
+                        <p>Everyone sharing expenses in your flat group.</p>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-row slide-up slide-up-delay-1">
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon purple"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Total Members</span>
+                            <h3 id="totalMembers">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon green"><i class="fa-solid fa-receipt"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Total Expenses</span>
+                            <h3 id="totalExpenses">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon blue"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Combined Spending</span>
+                            <h3 id="combinedSpending">₹0.00</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member Cards Grid -->
+                <div class="panel-card slide-up slide-up-delay-2">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-id-card"></i> Member Cards</h3>
+                    </div>
+                    <div id="memberCardsGrid" class="member-cards-grid">
+                        <div class="skeleton member-card-skeleton"></div>
+                        <div class="skeleton member-card-skeleton"></div>
+                        <div class="skeleton member-card-skeleton"></div>
+                    </div>
+                    <div class="empty-state" id="cardsEmpty" style="display:none;">
+                        <i class="fa-solid fa-users"></i>
+                        <h4>No members found</h4>
+                        <p>Members will appear here once added by admin.</p>
+                    </div>
+                </div>
+
+                <!-- Pending Requests Panel (Admin Only) -->
+                <div class="panel-card slide-up" id="pendingRequestsPanel" style="display:none; margin-bottom: 24px;">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-clock"></i> Pending Join Requests</h3>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Requested At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingRequestsBody">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table Section -->
+                <div class="panel-card slide-up slide-up-delay-3">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-table"></i> Members Table</h3>
+                        <div class="view-toggle">
+                            <span id="memberCount">0 members</span>
+                        </div>
+                    </div>
+
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="memberSearch" placeholder="Search by name or email...">
+                        </div>
+                        <div class="filter-group">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>
+                            <select id="sortFilter">
+                                <option value="name">Sort by Name</option>
+                                <option value="expenses">Sort by Expenses</option>
+                                <option value="spent">Sort by Total Spent</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper" id="tableWrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Join Date</th>
+                                    <th>Status</th>
+                                    <th>Total Expenses</th>
+                                    <th>Current Balance</th>
+                                    <th class="admin-actions-header" style="display:none;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="membersTableBody">
+                                <tr><td colspan="5"><div class="skeleton" style="height:48px;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="tableEmpty" style="display:none;">
+                        <i class="fa-solid fa-user-slash"></i>
+                        <h4>No members match your search</h4>
+                        <p>Try a different search term.</p>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- Member Detail Modal -->
+    <div class="modal" id="memberModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-profile">
+                    <div class="modal-avatar" id="modalAvatar">A</div>
+                    <div>
+                        <h2 id="modalMemberName">Member</h2>
+                        <p id="modalMemberEmail">email@example.com</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="modalClose" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Expenses Added</span>
+                        <span class="detail-value" id="modalExpenseCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Total Paid</span>
+                        <span class="detail-value amount-highlight" id="modalTotalPaid">₹0.00</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Avg per Expense</span>
+                        <span class="detail-value" id="modalAvgExpense">₹0.00</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+                        <span class="badge badge-success" id="modalStatus">Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/member/members.js"></script>
+
+</body>
+
+</html>

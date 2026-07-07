@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/member/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>SpendShare</h2>
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-expense.html">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Expense</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="expenses.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settlement.html">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="members.html">
+                        <i class="fa-solid fa-users-line"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monthly-summary.html">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Monthly Summary</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <a href="../auth/login.html" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main">
+
+            <header class="navbar">
+                <div class="nav-left">
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>Profile</h1>
+                </div>
+
+                <div class="nav-right">
+                    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="profile-dropdown">
+                        <button class="profile-trigger">
+                            <img src="../../assets/images/user.png" alt="Profile">
+                            <div class="profile-info">
+                                <h4 id="memberName">Member</h4>
+                                <small>Flat Member</small>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+                            <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../auth/login.html" class="logout-link" id="dropdownLogout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content page-enter">
+
+                <!-- Profile Hero -->
+                <div class="profile-hero slide-up">
+                    <div class="hero-bg"></div>
+                    <div class="hero-content">
+                        <div class="profile-avatar-wrap">
+                            <div class="profile-avatar skeleton" id="avatarSkeleton"></div>
+                            <div class="profile-avatar" id="profileAvatar" style="display:none;">?</div>
+                            <span class="role-badge" id="roleBadge">Member</span>
+                        </div>
+                        <div class="hero-info">
+                            <h2 id="profileDisplayName">
+                                <span class="skeleton skeleton-text lg" style="display:inline-block;width:180px;"></span>
+                            </h2>
+                            <p id="profileEmail" class="profile-email">—</p>
+                            <p class="member-since" id="memberSince">Member since —</p>
+                        </div>
+                        <a href="settings.html" class="btn-edit">
+                            <i class="fa-solid fa-gear"></i> Settings
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Activity Stats -->
+                <div class="stats-row slide-up slide-up-delay-1">
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon purple"><i class="fa-solid fa-receipt"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Expenses Added</span>
+                            <h3 id="totalExpenses">
+                                <span class="skeleton skeleton-text" style="width:40px;display:inline-block;"></span>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon green"><i class="fa-solid fa-wallet"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Total Paid</span>
+                            <h3 id="totalPaid">
+                                <span class="skeleton skeleton-text" style="width:80px;display:inline-block;"></span>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-icon blue"><i class="fa-solid fa-chart-line"></i></div>
+                        <div>
+                            <span class="stat-mini-label">Avg per Expense</span>
+                            <h3 id="avgExpense">
+                                <span class="skeleton skeleton-text" style="width:80px;display:inline-block;"></span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Info -->
+                <div class="panel-card slide-up slide-up-delay-2">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-id-card"></i> Personal Information</h3>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-user"></i></div>
+                            <div>
+                                <span class="info-label">Full Name</span>
+                                <span class="info-value" id="fullName">—</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-at"></i></div>
+                            <div>
+                                <span class="info-label">Username</span>
+                                <span class="info-value" id="username">—</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <span class="info-label">Email</span>
+                                <span class="info-value" id="email">—</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div>
+                                <span class="info-label">Phone</span>
+                                <span class="info-value" id="phone">—</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-users"></i></div>
+                            <div>
+                                <span class="info-label">Group</span>
+                                <span class="info-value" id="group">—</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div>
+                                <span class="info-label">Role</span>
+                                <span class="info-value" id="role">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="quick-links slide-up slide-up-delay-3">
+                    <a href="dashboard.html" class="quick-link-card">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="add-expense.html" class="quick-link-card">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Expense</span>
+                    </a>
+                    <a href="expenses.html" class="quick-link-card">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>My Expenses</span>
+                    </a>
+                    <a href="settlement.html" class="quick-link-card">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>Settlement</span>
+                    </a>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/member/profile.js"></script>
+
+</body>
+
+</html>

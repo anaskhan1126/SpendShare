@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create a new flat on SpendShare — manage shared expenses with your flatmates.">
+    <title>Create Flat | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/auth/admin-login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="auth-bg"></div>
+
+<header class="header">
+    <a href="../../index.html" class="logo">
+        <i class="fa-solid fa-wallet"></i>
+        <span>SpendShare</span>
+    </a>
+    <div class="header-actions">
+        <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="admin-login.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span class="hide-mobile">Admin Login</span>
+        </a>
+    </div>
+</header>
+
+<main class="admin-container">
+
+    <!-- Registration Form Card -->
+    <div class="admin-card admin-card--wide slide-up" id="registerCard">
+
+        <div class="admin-icon">
+            <i class="fa-solid fa-building"></i>
+        </div>
+
+        <h2>Create Your Flat</h2>
+        <p>Set up your flat and admin account. Members will join using your unique flat code.</p>
+
+        <form id="adminRegisterForm" novalidate>
+
+            <!-- Flat Details -->
+            <div class="form-section">
+                <h3 class="form-section-title">
+                    <i class="fa-solid fa-house"></i> Flat Details
+                </h3>
+
+                <div class="input-box">
+                    <label for="flatName">Flat Name</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-house-chimney"></i>
+                        <input
+                            type="text"
+                            id="flatName"
+                            required
+                            placeholder="e.g. Sunshine Apartments 4B"
+                            autocomplete="organization">
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label for="flatAddress">
+                        Address <span class="optional">(optional)</span>
+                    </label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input
+                            type="text"
+                            id="flatAddress"
+                            placeholder="Street, city, pin code"
+                            autocomplete="street-address">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Administrator Info -->
+            <div class="form-section">
+                <h3 class="form-section-title">
+                    <i class="fa-solid fa-user-shield"></i> Administrator
+                </h3>
+
+                <div class="input-box">
+                    <label for="adminName">Full Name</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input
+                            type="text"
+                            id="adminName"
+                            required
+                            placeholder="Your full name"
+                            autocomplete="name">
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label for="adminEmail">Email Address</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input
+                            type="email"
+                            id="adminEmail"
+                            required
+                            placeholder="you@example.com"
+                            autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label for="adminPhone">Phone Number</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-phone"></i>
+                        <input
+                            type="tel"
+                            id="adminPhone"
+                            required
+                            placeholder="10-digit mobile number"
+                            autocomplete="tel"
+                            maxlength="10">
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label for="adminPassword">Password</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input
+                            type="password"
+                            id="adminPassword"
+                            required
+                            placeholder="At least 6 characters"
+                            autocomplete="new-password"
+                            minlength="6">
+                        <i class="fa-solid fa-eye toggle-password"
+                           data-target="adminPassword"
+                           aria-label="Toggle password"
+                           role="button"
+                           tabindex="0"></i>
+                    </div>
+                    <!-- Password strength meter -->
+                    <div class="password-strength" id="passwordStrength" style="display:none">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <span class="strength-label" id="strengthLabel">Weak</span>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            required
+                            placeholder="Re-enter password"
+                            autocomplete="new-password"
+                            minlength="6">
+                        <i class="fa-solid fa-eye toggle-password"
+                           data-target="confirmPassword"
+                           aria-label="Toggle password"
+                           role="button"
+                           tabindex="0"></i>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="admin-login-btn" id="registerBtn">
+                <i class="fa-solid fa-plus"></i> Create Flat
+            </button>
+
+            <div class="register-link">
+                <p>Already have an account? <a href="admin-login.html">Sign in</a></p>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Success Card -->
+    <div class="admin-card admin-card--wide slide-up hidden" id="successCard">
+
+        <div class="admin-icon success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h2>Flat Created! 🎉</h2>
+        <p>Share this code with your flatmates so they can request to join.</p>
+
+        <div class="flat-code-box">
+            <span class="flat-code-label">
+                <i class="fa-solid fa-key"></i> Your Flat Code
+            </span>
+            <div class="flat-code-row">
+                <code id="flatCodeDisplay">--------</code>
+                <button type="button" class="copy-code-btn" id="copyCodeBtn" aria-label="Copy flat code">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+            <p class="flat-name-display" id="flatNameDisplay"></p>
+        </div>
+
+        <div class="success-hint">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Save this code — members need it to register. You can also find it later in your flat settings.</span>
+        </div>
+
+        <button type="button" class="admin-login-btn" id="goDashboardBtn">
+            <i class="fa-solid fa-gauge-high"></i> Go to Dashboard
+        </button>
+
+    </div>
+
+</main>
+
+<script src="../../js/shared.js"></script>
+<script src="../../js/auth/admin-register.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Login — SpendShare flat expense management system.">
+    <title>Admin Login | SpendShare</title>
+
+    <link rel="stylesheet" href="../../css/auth/admin-login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="auth-bg"></div>
+
+    <header class="header">
+        <a href="../../index.html" class="logo">
+            <i class="fa-solid fa-wallet"></i>
+            <span>SpendShare</span>
+        </a>
+        <div class="header-actions">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <a href="login.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span class="hide-mobile">Member Login</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <div class="admin-card slide-up">
+
+            <div class="admin-icon">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+
+            <h2>Administrator Login</h2>
+            <p>Only authorized administrators can access this panel.</p>
+
+            <form id="adminLoginForm" novalidate>
+
+                <div class="input-box">
+                    <label for="adminEmail">Email Address</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input
+                            type="email"
+                            id="adminEmail"
+                            placeholder="admin@example.com"
+                            required
+                            autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label for="adminPassword">Password</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input
+                            type="password"
+                            id="adminPassword"
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password">
+                        <i class="fa-solid fa-eye toggle-password"
+                           data-target="adminPassword"
+                           aria-label="Toggle password visibility"
+                           role="button"
+                           tabindex="0"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="admin-login-btn" id="adminLoginBtn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </button>
+
+                <div class="register-link">
+                    <p>New flat? <a href="admin-register.html">Create your flat</a></p>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script src="../../js/shared.js"></script>
+    <script src="../../js/auth/admin-login.js"></script>
+
+</body>
+
+</html>
