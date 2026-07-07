@@ -304,13 +304,13 @@ async function handleSubmit(e) {
             formData.append("expenseDate", document.getElementById("date").value);
             formData.append("receipt", selectedFile);
 
-            response = await fetch(`${SpendShare.API_BASE}/expense/add`, {
+            response = await fetch(`${API_BASE_URL}/api/expense/add`, {
                 method: "POST",
                 headers: { Authorization: `Bearer ${token}` },
                 body: formData
             });
         } else {
-            response = await fetch(`${SpendShare.API_BASE}/expense/add`, {
+            response = await fetch(`${API_BASE_URL}/api/expense/add`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -328,9 +328,12 @@ async function handleSubmit(e) {
             });
         }
 
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
-        if (!response.ok) {
+        if (!response.ok || !data.success) {
             SpendShare.showToast(data.message || "Failed to add expense", "error");
             return;
         }

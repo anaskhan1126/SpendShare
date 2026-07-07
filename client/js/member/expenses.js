@@ -3,7 +3,7 @@
  */
 
 const PAGE_SIZE = 10;
-const API_BASE = window.location.origin;
+const API_BASE = API_BASE_URL;
 
 let allExpenses = [];
 let filteredExpenses = [];
@@ -78,11 +78,14 @@ async function loadExpenses() {
     const { token } = SpendShare.getAuth();
 
     try {
-        const response = await fetch(`${SpendShare.API_BASE}/expense/`, {
+        const response = await fetch(`${API_BASE_URL}/api/expense/`, {
             headers: { Authorization: `Bearer ${token}` }
         });
 
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (!data.success) {
             SpendShare.showToast(data.message || "Failed to load expenses", "error");

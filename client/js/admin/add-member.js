@@ -209,13 +209,16 @@ function initRequestActions() {
 async function approveRequest(id) {
     try {
         const response = await fetch(
-            `${SpendShare.API_BASE}/admin/member-request/${id}/approve`,
+            `${API_BASE_URL}/api/admin/member-request/${id}/approve`,
             {
                 method: "PUT",
                 headers: { Authorization: `Bearer ${SpendShare.getAdminAuth().token}` }
             }
         );
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (!data.success) {
             SpendShare.showToast(data.message || "Failed to approve", "error");
@@ -234,13 +237,16 @@ async function approveRequest(id) {
 async function rejectRequest(id) {
     try {
         const response = await fetch(
-            `${SpendShare.API_BASE}/admin/member-request/${id}/reject`,
+            `${API_BASE_URL}/api/admin/member-request/${id}/reject`,
             {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${SpendShare.getAdminAuth().token}` }
             }
         );
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (!data.success) {
             SpendShare.showToast(data.message || "Failed to reject", "error");
@@ -325,7 +331,7 @@ async function handleSubmit(e) {
     btnLoader.style.display = "flex";
 
     try {
-        const response = await fetch(`${SpendShare.API_BASE}/admin/add-member`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/add-member`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -334,7 +340,10 @@ async function handleSubmit(e) {
             body: JSON.stringify(body)
         });
 
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (!data.success) {
             SpendShare.showToast(data.message || "Failed to add member", "error");

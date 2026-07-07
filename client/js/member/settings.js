@@ -200,7 +200,7 @@ async function handleSubmit(e) {
 
     try {
         const response = await fetch(
-            `${SpendShare.API_BASE}/member/change-password/${memberId}`,
+            `${API_BASE_URL}/api/member/change-password/${memberId}`,
             {
                 method: "PUT",
                 headers: {
@@ -211,7 +211,10 @@ async function handleSubmit(e) {
             }
         );
 
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (!data.success) {
             SpendShare.showToast(data.message || "Failed to change password", "error");

@@ -56,7 +56,7 @@ function initAdminRegisterForm() {
         setLoading(btn, true);
 
         try {
-            const response = await fetch(`${SpendShare.API_BASE}/flat/create`, {
+            const response = await fetch(`${API_BASE_URL}/api/flat/create`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -70,7 +70,10 @@ function initAdminRegisterForm() {
                 })
             });
 
-            const data = await response.json();
+            const contentType = response.headers.get("content-type");
+            const data = (contentType && contentType.includes("application/json"))
+                ? await response.json()
+                : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
             if (!data.success) {
                 SpendShare.showToast(data.message || "Registration failed", "error");

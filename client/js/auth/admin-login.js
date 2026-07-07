@@ -39,7 +39,7 @@ function initAdminLoginForm() {
         setLoading(btn, true);
 
         try {
-            const response = await fetch(SpendShare.API_BASE + "/admin/login", {
+            const response = await fetch(API_BASE_URL + "/api/admin/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })

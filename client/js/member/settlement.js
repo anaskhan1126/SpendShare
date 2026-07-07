@@ -405,16 +405,19 @@ async function markAsPaid(id) {
             try {
                 const { token } = SpendShare.getAuth();
                 const response = await fetch(
-                    `${SpendShare.API_BASE}/settlement/${id}/pay`,
+                    `${API_BASE_URL}/api/settlement/${id}/pay`,
                     {
                         method: "PUT",
                         headers: { Authorization: `Bearer ${token}` }
                     }
                 );
 
-                const result = await response.json();
+                const contentType = response.headers.get("content-type");
+                const result = (contentType && contentType.includes("application/json"))
+                    ? await response.json()
+                    : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
-                if (!response.ok) {
+                if (!response.ok || !result.success) {
                     SpendShare.showToast(result.message || "Failed to confirm", "error");
                     return;
                 }

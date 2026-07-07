@@ -308,11 +308,15 @@ function renderPendingRequests() {
 
 window.approveRequest = async (id) => {
     try {
-        const response = await fetch(`${SpendShare.API_BASE}/admin/member-request/${id}/approve`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/member-request/${id}/approve`, {
             method: "PUT",
             headers: { Authorization: `Bearer ${SpendShare.getAdminAuth().token}` }
         });
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
+
         if (data.success) {
             SpendShare.showToast("Member approved successfully", "success");
             await loadPendingRequests();
@@ -329,11 +333,15 @@ window.approveRequest = async (id) => {
 window.rejectRequest = async (id) => {
     if (!confirm("Are you sure you want to reject this request?")) return;
     try {
-        const response = await fetch(`${SpendShare.API_BASE}/admin/member-request/${id}/reject`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/member-request/${id}/reject`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${SpendShare.getAdminAuth().token}` }
         });
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
+
         if (data.success) {
             SpendShare.showToast("Request rejected successfully", "success");
             await loadPendingRequests();
@@ -351,11 +359,15 @@ window.deleteMember = async (event, id, name) => {
     if (!confirm(`Are you sure you want to remove ${name} from this flat? This cannot be undone.`)) return;
 
     try {
-        const response = await fetch(`${SpendShare.API_BASE}/admin/member/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/member/${id}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${SpendShare.getAdminAuth().token}` }
         });
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
+
         if (data.success) {
             SpendShare.showToast("Member removed successfully", "success");
             await loadMembers();

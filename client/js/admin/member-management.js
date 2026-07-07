@@ -198,7 +198,7 @@ async function saveEdit(e) {
     }
 
     try {
-        const response = await fetch(`${SpendShare.API_BASE}/admin/member/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/member/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -207,7 +207,10 @@ async function saveEdit(e) {
             body: JSON.stringify({ name, email, phone })
         });
 
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (!data.success) {
             SpendShare.showToast(data.message || "Failed to update", "error");
@@ -259,14 +262,17 @@ async function deleteMember() {
 
     try {
         const response = await fetch(
-            `${SpendShare.API_BASE}/admin/member/${deleteTargetId}`,
+            `${API_BASE_URL}/api/admin/member/${deleteTargetId}`,
             {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${SpendShare.getAdminAuth().token}` }
             }
         );
 
-        const data = await response.json();
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (!data.success) {
             SpendShare.showToast(data.message || "Failed to delete", "error");

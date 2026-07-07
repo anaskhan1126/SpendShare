@@ -3,7 +3,7 @@
  */
 
 const PAGE_SIZE = 10;
-const API_BASE = window.location.origin;
+const API_BASE = API_BASE_URL;
 
 let allExpenses = [];
 let filteredExpenses = [];

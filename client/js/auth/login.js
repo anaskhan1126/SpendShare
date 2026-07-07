@@ -56,13 +56,16 @@ function initLoginForm() {
         setLoading(btn, true);
 
         try {
-            const response = await fetch(SpendShare.API_BASE + "/member/login", {
+            const response = await fetch(API_BASE_URL + "/api/member/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })
             });
 
-            const data = await response.json();
+            const contentType = response.headers.get("content-type");
+            const data = (contentType && contentType.includes("application/json"))
+                ? await response.json()
+                : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
             if (!response.ok || !data.success) {
                 const duration = data.code === "PENDING_APPROVAL" ? 5000 : 3000;

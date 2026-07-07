@@ -104,8 +104,11 @@ async function validateFlatCode(code) {
     if (status) status.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
     try {
-        const response = await fetch(`${SpendShare.API_BASE}/flat/validate/${encodeURIComponent(code)}`);
-        const data = await response.json();
+        const response = await fetch(`${API_BASE_URL}/api/flat/validate/${encodeURIComponent(code)}`);
+        const contentType = response.headers.get("content-type");
+        const data = (contentType && contentType.includes("application/json"))
+            ? await response.json()
+            : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
         if (data.success && data.exists) {
             flatValidation.code = code;
@@ -191,7 +194,7 @@ function initMemberRegisterForm() {
         setLoading(btn, true);
 
         try {
-            const response = await fetch(`${SpendShare.API_BASE}/member/register-request`, {
+            const response = await fetch(`${API_BASE_URL}/api/member/register-request`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -204,7 +207,10 @@ function initMemberRegisterForm() {
                 })
             });
 
-            const data = await response.json();
+            const contentType = response.headers.get("content-type");
+            const data = (contentType && contentType.includes("application/json"))
+                ? await response.json()
+                : { success: false, message: `Server error: ${response.status} ${response.statusText}` };
 
             if (!data.success) {
                 SpendShare.showToast(data.message || "Registration failed", "error");

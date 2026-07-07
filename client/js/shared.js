@@ -13,21 +13,19 @@ const SpendShare = (() => {
                         <div style="font-size:64px; color:#ef4444; margin-bottom:20px;">⚠️</div>
                         <h2 style="margin-bottom:12px; font-weight:700; color:#fff;">Local File Access Blocked</h2>
                         <p style="color:#8898AA; font-size:14px; line-height:1.6; margin-bottom:24px;">
-                            SpendShare must be accessed through the running Express Server (<strong>http://localhost:5000</strong>) to support full API requests, secure authentication, and data exports.
+                            SpendShare must be accessed through the deployed Express Server (<strong>${API_BASE_URL}</strong>) to support full API requests, secure authentication, and data exports.
                         </p>
-                        <a href="http://localhost:5000" style="background:#7C3AED; color:white; border:none; padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-block; transition:0.2s;">
+                        <a href="${API_BASE_URL}" style="background:#7C3AED; color:white; border:none; padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-block; transition:0.2s;">
                             Launch via Server
                         </a>
                     </div>
                 </div>
             `;
         });
-        throw new Error("SpendShare cannot be run from local files (file://). Please use http://localhost:5000");
+        throw new Error(`SpendShare cannot be run from local files (file://). Please use ${API_BASE_URL}`);
     }
 
-    const API_BASE = (window.location.port && window.location.port !== "5000")
-        ? `${window.location.protocol}//${window.location.hostname}:5000/api`
-        : window.location.origin + "/api";
+    const API_BASE = `${API_BASE_URL}/api`;
 
     /* ===========================
        THEME
@@ -389,33 +387,39 @@ const SpendShare = (() => {
     =========================== */
 
     async function apiFetch(endpoint, options = {}) {
-        const { token, role } = getAuth();
-        const response = await fetch(`${API_BASE}${endpoint}`, {
-            ...options,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                ...options.headers
-            }
-        });
-        const contentType = response.headers.get("content-type");
-        const data = (contentType && contentType.includes("application/json"))
-            ? await response.json()
-            : { success: false, message: `Server returned non-JSON response: ${response.status} ${response.statusText}` };
-        if (response.status === 403 && data.code === "PENDING_APPROVAL") {
-            showToast(data.message || "Waiting for admin approval.", "warning", 4000);
-            clearMemberSession();
-            setTimeout(() => { window.location.href = "../auth/login.html"; }, 1500);
-        } else if (response.status === 401) {
-            showToast("Session expired. Please login again.", "warning");
-            if (role === "admin") {
-                clearAdminSession();
-                setTimeout(() => { window.location.href = "../auth/admin-login.html"; }, 1000);
-            } else {
+        try {
+            const { token, role } = getAuth();
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                ...options,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    ...options.headers
+                }
+            });
+            const contentType = response.headers.get("content-type");
+            const data = (contentType && contentType.includes("application/json"))
+                ? await response.json()
+                : { success: false, message: `Server returned non-JSON response: ${response.status} ${response.statusText}` };
+            if (response.status === 403 && data.code === "PENDING_APPROVAL") {
+                showToast(data.message || "Waiting for admin approval.", "warning", 4000);
                 clearMemberSession();
-                setTimeout(() => { window.location.href = "../auth/login.html"; }, 1000);
+                setTimeout(() => { window.location.href = "../auth/login.html"; }, 1500);
+            } else if (response.status === 401) {
+                showToast("Session expired. Please login again.", "warning");
+                if (role === "admin") {
+                    clearAdminSession();
+                    setTimeout(() => { window.location.href = "../auth/admin-login.html"; }, 1000);
+                } else {
+                    clearMemberSession();
+                    setTimeout(() => { window.location.href = "../auth/login.html"; }, 1000);
+                }
             }
+            return data;
+        } catch (error) {
+            console.error("API Fetch Error:", error);
+            showToast("Network error. Unable to connect to server.", "error");
+            return { success: false, message: "Network connection error. Please try again later." };
         }
-        return data;
     }
 
     /* ===========================
@@ -482,24 +486,30 @@ const SpendShare = (() => {
     }
 
     async function adminApiFetch(endpoint, options = {}) {
-        const { token } = getAdminAuth();
-        const response = await fetch(`${API_BASE}${endpoint}`, {
-            ...options,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                ...options.headers
+        try {
+            const { token } = getAdminAuth();
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                ...options,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    ...options.headers
+                }
+            });
+            const contentType = response.headers.get("content-type");
+            const data = (contentType && contentType.includes("application/json"))
+                ? await response.json()
+                : { success: false, message: `Server returned non-JSON response: ${response.status} ${response.statusText}` };
+            if (response.status === 401 || response.status === 403) {
+                showToast(data.message || "Session expired. Please login again.", "warning");
+                clearAdminSession();
+                setTimeout(() => { window.location.href = "../auth/admin-login.html"; }, 1000);
             }
-        });
-        const contentType = response.headers.get("content-type");
-        const data = (contentType && contentType.includes("application/json"))
-            ? await response.json()
-            : { success: false, message: `Server returned non-JSON response: ${response.status} ${response.statusText}` };
-        if (response.status === 401 || response.status === 403) {
-            showToast(data.message || "Session expired. Please login again.", "warning");
-            clearAdminSession();
-            setTimeout(() => { window.location.href = "../auth/admin-login.html"; }, 1000);
+            return data;
+        } catch (error) {
+            console.error("Admin API Fetch Error:", error);
+            showToast("Network error. Unable to connect to server.", "error");
+            return { success: false, message: "Network connection error. Please try again later." };
         }
-        return data;
     }
 
     function initAdminLogout() {
