@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 
 dotenv.config();
 
-connectDB();
+// connectDB();
 
 const app = express();
 
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, "../client")));
 const isProduction = process.env.NODE_ENV === "production";
 const authRateLimiter = customRateLimiter({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: isProduction ? 15 : 1000, // relaxed limit for testing/development
+    max: isProduction ? 50 : 1000, // relaxed limit for testing/development
     message: "Too many login/register attempts from this IP, please try again after 15 minutes."
 });
 app.use("/api/admin/login", authRateLimiter);
@@ -44,7 +44,7 @@ app.use("/api/member/register-request", authRateLimiter);
 // General API Rate Limiting (max 120 requests per minute)
 app.use("/api", customRateLimiter({
     windowMs: 60 * 1000,
-    max: 120,
+    max: 300,
     message: "Too many requests. Please slow down."
 }));
 
@@ -70,10 +70,26 @@ app.get("/api/health",(req,res)=>{
 
 });
 
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 
-app.listen(PORT,()=>{
+// app.listen(PORT,()=>{
 
-    console.log(`Server Running on Port ${PORT}`);
+//     console.log(`Server Running on Port ${PORT}`);
 
-});
+// });
+const startServer = async () => {
+    try {
+        await connectDB();
+
+        const PORT = process.env.PORT || 5000;
+
+        app.listen(PORT, () => {
+            console.log(`Server Running on Port ${PORT}`);
+        });
+    } catch (err) {
+        console.error("Failed to start server:", err);
+        process.exit(1);
+    }
+};
+
+startServer();
