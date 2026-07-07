@@ -1308,11 +1308,17 @@ body {
 }
 
 @media (max-width: 480px) {
-    .hero h1 { font-size: 34px; }
-    .section-header h2 { font-size: 28px; }
-    .cta-inner h2 { font-size: 24px; }
-    .stats-bar-inner { display: grid; grid-template-columns: 1fr 1fr; }
-    .stat-item:nth-child(2n) { border-right: none; }
-    .stat-item:nth-child(1),
-    .stat-item:nth-child(2) { border-bottom: 1px solid var(--border); }
+    .hero h1 { font-size: 30px !important; }
+    .section-header h2 { font-size: 24px !important; }
+    .cta-inner h2 { font-size: 20px !important; }
+    .stats-bar-inner { display: flex !important; flex-direction: column !important; gap: 0 !important; }
+    .stat-item { border-right: none !important; border-bottom: 1px solid var(--border) !important; width: 100% !important; padding: 12px !important; }
+    .stat-item:last-child { border-bottom: none !important; }
+    .hero-cta-secondary { justify-content: center !important; gap: 12px !important; }
+}
+
+@media (max-width: 360px) {
+    .hero h1 { font-size: 25px !important; }
+    .hero-cta-secondary { flex-direction: column !important; gap: 8px !important; }
+    .hero-cta-secondary .dot { display: none !important; }
 }

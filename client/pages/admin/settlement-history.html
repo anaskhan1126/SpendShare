@@ -195,21 +195,23 @@
                     </div>
 
                     <div class="table-wrapper" id="tableWrapper">
-                        <table class="data-table" id="settlementTable">
-                            <thead>
-                                <tr>
-                                    <th class="sortable" data-sort="date">Date <i class="fa-solid fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="from">From <i class="fa-solid fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="to">To <i class="fa-solid fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="amount">Amount <i class="fa-solid fa-sort sort-icon"></i></th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="settlementTableBody">
-                                <tr><td colspan="6"><div class="skeleton" style="height:48px;"></div></td></tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="data-table" id="settlementTable">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable" data-sort="date">Date <i class="fa-solid fa-sort sort-icon"></i></th>
+                                        <th class="sortable" data-sort="from">From <i class="fa-solid fa-sort sort-icon"></i></th>
+                                        <th class="sortable" data-sort="to">To <i class="fa-solid fa-sort sort-icon"></i></th>
+                                        <th class="sortable" data-sort="amount">Amount <i class="fa-solid fa-sort sort-icon"></i></th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="settlementTableBody">
+                                    <tr><td colspan="6"><div class="skeleton" style="height:48px;"></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="empty-state" id="tableEmpty" style="display:none;">

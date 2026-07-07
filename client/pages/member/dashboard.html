@@ -309,22 +309,24 @@
                             <a href="expenses.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
                         </div>
                         <div class="table-wrapper">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Expense</th>
-                                        <th>Category</th>
-                                        <th>Paid By</th>
-                                        <th>Date</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentExpensesBody">
-                                    <tr class="skeleton-row">
-                                        <td colspan="5"><div class="skeleton" style="height:40px;"></div></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Expense</th>
+                                            <th>Category</th>
+                                            <th>Paid By</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentExpensesBody">
+                                        <tr class="skeleton-row">
+                                            <td colspan="5"><div class="skeleton" style="height:40px;"></div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="empty-state" id="recentEmpty" style="display:none;">
                             <i class="fa-solid fa-receipt"></i>

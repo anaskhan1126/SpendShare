@@ -669,3 +669,15 @@ body {
     .header { padding: 0 16px; height: 60px; }
     .hide-mobile { display: none !important; }
 }
+
+@media (max-width: 480px) {
+    .options {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+    .back-btn {
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+    }
+}

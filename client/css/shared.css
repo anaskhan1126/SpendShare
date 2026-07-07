@@ -841,5 +841,18 @@ img {
     opacity: 0.85;
 }
 
+/* ===========================
+   RESPONSIVE TABLE UTILITY
+=========================== */
+.table-responsive,
+.responsive-table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-behavior: smooth !important;
+}
+
 /* Responsive Overrides */
 @import url("responsive.css");
+

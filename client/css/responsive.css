@@ -2,9 +2,26 @@
    SpendShare — Modern Responsive Overrides
    ========================================== */
 
-/* Tablet View Adjustments (Viewport <= 1024px) */
-@media (max-width: 1024px) {
-    /* Responsive grids */
+/* Keep base elements from horizontal scroll on mobile */
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+/* Large Tablet / Small Laptop (max-width: 1200px) */
+@media (max-width: 1200px) {
+    .dashboard-content,
+    .page-content {
+        padding: 20px !important;
+    }
+}
+
+/* Tablet View (max-width: 992px) */
+@media (max-width: 992px) {
+    .main {
+        margin-left: var(--sidebar-collapsed) !important;
+    }
+
     .summary-cards {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 16px !important;
@@ -14,7 +31,9 @@
     .insights-row,
     .bottom-row,
     .form-grid,
-    .grid-2-cols {
+    .grid-2-cols,
+    .split-layout,
+    .layout-2-cols {
         grid-template-columns: 1fr !important;
         gap: 20px !important;
     }
@@ -25,28 +44,55 @@
     }
 
     /* Keep tables from overflowing screen */
-    .table-wrapper {
-        width: 100%;
+    .table-wrapper,
+    .table-container,
+    .table-responsive {
+        width: 100% !important;
         overflow-x: auto !important;
+        display: block !important;
         border-radius: var(--radius-md);
         border: 1px solid var(--border-light);
         background: var(--card);
         -webkit-overflow-scrolling: touch;
     }
 
-    .data-table {
+    .table-wrapper table,
+    .table-container table,
+    .table-responsive table,
+    .data-table,
+    .history-table,
+    .member-table {
         min-width: 600px !important;
     }
 }
 
-/* Mobile View Adjustments (Viewport <= 768px) */
+/* Mobile Landscape & Tablet Portrait (max-width: 768px) */
 @media (max-width: 768px) {
-    .summary-cards {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
+    .main {
+        margin-left: 0 !important;
     }
 
-    .insights-grid {
+    .summary-cards,
+    .insights-grid,
+    .grid-3-cols,
+    .grid-4-cols,
+    .dashboard-grid,
+    .stats-grid,
+    .profile-grid,
+    .members-grid,
+    .expenses-grid,
+    .settlement-grid,
+    .split-layout,
+    .layout-2-cols,
+    .form-layout,
+    .form-grid,
+    .form-row,
+    .grid-layout,
+    .analytics,
+    .stats-row,
+    .filter-grid,
+    .filter-row,
+    .quick-links {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
     }
@@ -70,18 +116,10 @@
         justify-content: center !important;
     }
 
-    /* Form and grid adjustments */
-    .form-row,
-    .form-grid,
-    .grid-3-cols {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-    }
-
     /* Page container adjustments */
     .dashboard-content,
     .page-content {
-        padding: 16px 16px 30px !important;
+        padding: 16px 12px 30px !important;
     }
 
     .page-header {
@@ -95,6 +133,9 @@
         font-size: 20px !important;
     }
 
+    .page-header .btn,
+    .page-header button,
+    .page-header a,
     .page-header .btn-ghost,
     .page-header .btn-primary {
         width: 100% !important;
@@ -113,10 +154,81 @@
     .navbar {
         padding: 0 16px !important;
     }
+
+    /* Form control wrapping */
+    .filter-row,
+    .search-filter-row,
+    .button-group,
+    .action-group,
+    .quick-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
+
+    .filter-item, .search-box, .search-container {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .filter-item select,
+    .filter-item input,
+    .search-box input {
+        width: 100% !important;
+    }
 }
 
-/* Extra Small Phones (Viewport <= 480px) */
-@media (max-width: 480px) {
+/* Mobile Portrait (max-width: 576px) */
+@media (max-width: 576px) {
+    /* Ensure body font size is readable (at least 14px) */
+    body, p, li, a, td, th, label, .stat-label, .welcome-date, .welcome-subtitle {
+        font-size: 14px !important;
+    }
+
+    /* Form fields stretch to full width and use 14px text */
+    input, select, textarea, .input-field, .select-field, .form-control {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        font-size: 14px !important;
+    }
+
+    /* Buttons stack and fit the screen */
+    .btn, button, .btn-primary, .btn-secondary, .btn-ghost, .btn-submit, .btn-reset, .btn-action, .action-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        justify-content: center !important;
+        display: inline-flex !important;
+        box-sizing: border-box !important;
+        font-size: 14px !important;
+    }
+
+    /* Cards become full width */
+    .stat-card, .panel-card, .feature-card, .insight-item, .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Modals & Popups full width and fit screen */
+    .modal {
+        padding: 10px !important;
+    }
+
+    .modal-content, .modal-body, .popup-content {
+        width: 100% !important;
+        max-width: 98% !important;
+        padding: 16px !important;
+        margin: 10px auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .modal-header, .modal-footer {
+        padding: 12px 16px !important;
+    }
+
     .navbar h1 {
         font-size: 18px !important;
     }
@@ -129,9 +241,125 @@
         font-size: 20px !important;
     }
 
-    .btn-submit,
-    .btn-reset,
-    .button-group button {
+    /* Wrap long text and values */
+    .stat-value, .amount, .balance, h1, h2, h3, p, span, td, th {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+    }
+
+    /* Charts auto-resize */
+    .chart-wrapper, .chart-container, .chart-card {
         width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .chart-wrapper canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Images scale properly */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Pagination items wrap */
+    .pagination, .pagination-container, .page-numbers {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+
+    /* Dynamic element spacing adjustments */
+    .member-item, .expense-item, .detail-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+
+    .member-actions, .expense-actions {
+        width: 100% !important;
+        justify-content: flex-start !important;
+    }
+
+    .member-card-info p {
+        max-width: 100% !important;
+    }
+}
+
+/* Small Screen Mobile Devices (max-width: 375px) */
+@media (max-width: 375px) {
+    .navbar h1 {
+        font-size: 15px !important;
+    }
+
+    .stat-value {
+        font-size: 18px !important;
+    }
+
+    .dashboard-content,
+    .page-content {
+        padding: 12px 8px 24px !important;
+    }
+
+    .panel-card {
+        padding: 16px !important;
+    }
+}
+
+/* High Priority 320px Screen Optimization (max-width: 320px) */
+@media (max-width: 320px) {
+    /* Prevent any padding-related overflow */
+    .dashboard-content,
+    .page-content {
+        padding: 8px 6px 20px !important;
+    }
+
+    .panel-card,
+    .stat-card {
+        padding: 12px 10px !important;
+    }
+
+    .modal-content,
+    .modal-body,
+    .popup-content {
+        padding: 12px !important;
+        margin: 5px auto !important;
+    }
+
+    /* Ensure text labels wrap nicely without collision */
+    .stat-card-content {
+        gap: 10px !important;
+    }
+
+    .stat-icon {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 16px !important;
+    }
+
+    /* Reduce vertical gaps and margins */
+    .analytics,
+    .summary-cards,
+    .charts-row,
+    .insights-row,
+    .bottom-row,
+    .stats-row,
+    .filter-grid,
+    .filter-row {
+        gap: 8px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .panel-card,
+    .stat-card,
+    .welcome-card {
+        margin-bottom: 12px !important;
     }
 }

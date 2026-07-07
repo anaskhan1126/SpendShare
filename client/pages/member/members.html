@@ -178,21 +178,23 @@
                         <h3><i class="fa-solid fa-clock"></i> Pending Join Requests</h3>
                     </div>
                     <div class="table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Requested At</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pendingRequestsBody">
-                                <!-- Loaded dynamically -->
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Requested At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pendingRequestsBody">
+                                    <!-- Loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -221,24 +223,26 @@
                     </div>
 
                     <div class="table-wrapper" id="tableWrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Member</th>
-                                    <th>Role</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Join Date</th>
-                                    <th>Status</th>
-                                    <th>Total Expenses</th>
-                                    <th>Current Balance</th>
-                                    <th class="admin-actions-header" style="display:none;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="membersTableBody">
-                                <tr><td colspan="5"><div class="skeleton" style="height:48px;"></div></td></tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Member</th>
+                                        <th>Role</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Join Date</th>
+                                        <th>Status</th>
+                                        <th>Total Expenses</th>
+                                        <th>Current Balance</th>
+                                        <th class="admin-actions-header" style="display:none;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="membersTableBody">
+                                    <tr><td colspan="5"><div class="skeleton" style="height:48px;"></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="empty-state" id="tableEmpty" style="display:none;">
