@@ -85,17 +85,18 @@ exports.adminRegister = async (req, res) => {
 exports.adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        let admin = await User.findOne({ email });
+        const emailClean = (email || "").trim().toLowerCase();
+        let admin = await User.findOne({ email: emailClean });
 
         if (!admin) {
             const mongoose = require("mongoose");
             const LegacyAdmin = mongoose.models.LegacyAdmin || mongoose.model("LegacyAdmin", new mongoose.Schema({}, { strict: false }), "admins");
-            const legacyAdmin = await LegacyAdmin.findOne({ email });
+            const legacyAdmin = await LegacyAdmin.findOne({ email: emailClean });
             
             if (legacyAdmin) {
                 admin = await User.create({
                     name: legacyAdmin.name || "Admin",
-                    username: legacyAdmin.username || email.split("@")[0],
+                    username: legacyAdmin.username || emailClean.split("@")[0],
                     email: legacyAdmin.email,
                     phone: legacyAdmin.phone,
                     password: legacyAdmin.password,
@@ -106,10 +107,17 @@ exports.adminLogin = async (req, res) => {
             }
         }
 
-        if (!admin || admin.role !== "admin") {
+        if (!admin) {
             return res.status(404).json({
                 success: false,
                 message: "Admin not found"
+            });
+        }
+
+        if (admin.role !== "admin") {
+            return res.status(403).json({
+                success: false,
+                message: "You are not authorized to access the Admin Portal."
             });
         }
 

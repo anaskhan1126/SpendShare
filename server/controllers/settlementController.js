@@ -211,22 +211,16 @@ exports.markSettlementPaid = async (req, res) => {
     try {
         const flatId = req.user?.flatId || null;
         const userId = req.user?.id || req.user?._id;
-        const userRole = req.user?.role;
 
-        let query = {
+        const settlement = await Settlement.findOne({
             _id: req.params.id,
             ...mergeFlatFilter(flatId, {})
-        };
-        if (userRole !== "admin") {
-            query.$or = [{ from: userId }, { to: userId }];
-        }
-
-        const settlement = await Settlement.findOne(query);
+        });
 
         if (!settlement) {
-            return res.status(403).json({
+            return res.status(404).json({
                 success: false,
-                message: "Settlement not found or you do not have permission."
+                message: "Settlement not found."
             });
         }
 
@@ -238,28 +232,23 @@ exports.markSettlementPaid = async (req, res) => {
         }
 
         const isReceiver = settlement.to.toString() === userId.toString();
-        const isPayer = settlement.from.toString() === userId.toString();
-        const isAdmin = userRole === "admin";
 
-        if (isAdmin || isReceiver) {
-            settlement.status = "Paid";
-            settlement.paidAt = new Date();
-            settlement.payerMarkedPaid = true;
-            await settlement.save();
-
-            return res.status(200).json({
-                success: true,
-                message: "Payment confirmed successfully."
-            });
-        } else if (isPayer) {
-            settlement.payerMarkedPaid = true;
-            await settlement.save();
-
-            return res.status(200).json({
-                success: true,
-                message: "Marked as paid. Awaiting receiver confirmation."
+        if (!isReceiver) {
+            return res.status(403).json({
+                success: false,
+                message: "Only the receiver can confirm this settlement."
             });
         }
+
+        settlement.status = "Paid";
+        settlement.paidAt = new Date();
+        settlement.payerMarkedPaid = true;
+        await settlement.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Payment confirmed successfully."
+        });
 
     }
     catch (error) {

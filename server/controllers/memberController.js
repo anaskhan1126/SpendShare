@@ -65,13 +65,6 @@ exports.memberLogin = async (req, res) => {
             });
         }
 
-        if (member.role === "admin") {
-            return res.status(403).json({
-                success: false,
-                message: "Please use Admin Login to access the administrator panel."
-            });
-        }
-
         if (member.status === "pending") {
             return res.status(403).json({
                 success: false,
