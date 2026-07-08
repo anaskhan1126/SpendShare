@@ -195,21 +195,7 @@ function renderSmartSettlement(transactions) {
     list.style.display = "flex";
 
     list.innerHTML = pending.map(t => {
-        const isReceiver = t.to._id?.toString() === memberId || t.to === memberId;
-        const isPayer = t.from._id?.toString() === memberId || t.from === memberId;
-        
-        let actionBtn;
-        if (isReceiver) {
-            actionBtn = `<button class="action-btn pay-btn" data-id="${t._id}">
-                   <i class="fa-solid fa-check"></i> Mark Received
-               </button>`;
-        } else if (role === "admin" || isPayer) {
-            actionBtn = `<button class="action-btn pay-btn" data-id="${t._id}">
-                   <i class="fa-solid fa-check"></i> Mark Paid
-               </button>`;
-        } else {
-            actionBtn = `<span class="waiting-badge"><i class="fa-solid fa-hourglass-half"></i> Awaiting</span>`;
-        }
+        const actionBtn = SpendShare.getSettlementActionHtml(SpendShare.getAuth(), t);
 
         return `
             <div class="smart-item fade-in">
@@ -243,13 +229,13 @@ function renderTable(transactions) {
 
     if (!validTransactions.length) {
         tbody.innerHTML = "";
-        wrapper.style.display = "none";
-        empty.style.display = "flex";
+        if (wrapper) wrapper.classList.add("hidden");
+        if (empty) empty.classList.remove("hidden");
         return;
     }
 
-    wrapper.style.display = "block";
-    empty.style.display = "none";
+    if (wrapper) wrapper.classList.remove("hidden");
+    if (empty) empty.classList.add("hidden");
 
     tbody.innerHTML = validTransactions.map(t => {
         const action = getActionHtml(t, memberId);
@@ -281,28 +267,8 @@ function renderTable(transactions) {
 }
 
 function getActionHtml(transaction, memberId) {
-    if (transaction.status === "Paid") {
-        return `<button class="status-paid-btn" disabled><i class="fa-solid fa-check"></i> Paid</button>`;
-    }
-
-    const { role } = SpendShare.getAuth();
-    const toId = transaction.to._id?.toString() || transaction.to;
-    const fromId = transaction.from._id?.toString() || transaction.from;
-
-    // "Mark Received" button appears ONLY for pending settlements and the receiver of the payment
-    if (toId === memberId) {
-        return `<button class="action-btn pay-btn" data-id="${transaction._id}">
-            <i class="fa-solid fa-check"></i> Mark Received
-        </button>`;
-    }
-
-    if (role === "admin" || fromId === memberId) {
-        return `<button class="action-btn pay-btn" data-id="${transaction._id}">
-            <i class="fa-solid fa-check"></i> Mark Paid
-        </button>`;
-    }
-
-    return `<span class="waiting-badge"><i class="fa-solid fa-hourglass-half"></i> Awaiting</span>`;
+    const currentUser = SpendShare.getAuth();
+    return SpendShare.getSettlementActionHtml(currentUser, transaction);
 }
 
 /* ===========================
@@ -312,30 +278,36 @@ function getActionHtml(transaction, memberId) {
 function renderCards(transactions) {
     const container = document.getElementById("settlementCards");
     const empty = document.getElementById("cardsEmpty");
+    const { memberId } = SpendShare.getAuth();
 
     const validCards = transactions.filter(t => t.amount > 0 && t.from && t.to);
 
     if (!validCards.length) {
         container.innerHTML = "";
-        empty.style.display = "flex";
+        if (empty) empty.classList.remove("hidden");
         return;
     }
 
-    empty.style.display = "none";
+    if (empty) empty.classList.add("hidden");
 
-    container.innerHTML = validCards.map(t => `
-        <div class="settlement-card ${t.status.toLowerCase()} fade-in">
-            <h4>
-                ${escapeHtml(t.from.name)}
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-                ${escapeHtml(t.to.name)}
-            </h4>
-            <div class="card-amount">${SpendShare.formatCurrency(t.amount)}</div>
-            <span class="card-status ${t.status === "Paid" ? "status-paid" : "status-pending"}">
-                ${t.status}
-            </span>
-        </div>
-    `).join("");
+    container.innerHTML = validCards.map(t => {
+        const action = getActionHtml(t, memberId);
+        return `
+            <div class="settlement-card ${t.status.toLowerCase()} fade-in">
+                <h4>
+                    ${escapeHtml(t.from.name)}
+                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                    ${escapeHtml(t.to.name)}
+                </h4>
+                <div class="card-amount">${SpendShare.formatCurrency(t.amount)}</div>
+                <div class="card-action-container">
+                    ${action}
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    applyFilters();
 }
 
 /* ===========================
@@ -389,9 +361,8 @@ function initPayDelegation() {
 }
 
 async function markAsPaid(id) {
-    const transaction = allTransactions.find(t => t._id === id);
-    const { memberId } = SpendShare.getAuth();
-    const isReceiver = transaction && (transaction.to._id?.toString() === memberId || transaction.to === memberId);
+    const transaction = allTransactions.find(t => t._id === id) || (typeof adminAllSettlements !== "undefined" ? adminAllSettlements.find(t => t._id === id) : null);
+    const isReceiver = SpendShare.canConfirmSettlement(SpendShare.getAuth(), transaction);
     
     const confirmTitle = isReceiver ? "Confirm Payment Received" : "Mark Settlement as Paid";
     const confirmMessage = isReceiver 
@@ -463,12 +434,12 @@ function applyFilters() {
     const tableWrapper = document.getElementById("tableWrapper");
     const tableEmpty = document.getElementById("tableEmpty");
     if (tableWrapper && tableEmpty) {
-        if (visibleTableRows === 0 && allTransactions.length > 0) {
-            tableWrapper.style.display = "none";
-            tableEmpty.style.display = "flex";
-        } else if (allTransactions.length > 0) {
-            tableWrapper.style.display = "block";
-            tableEmpty.style.display = "none";
+        if (allTransactions.length === 0 || visibleTableRows === 0) {
+            tableWrapper.classList.add("hidden");
+            tableEmpty.classList.remove("hidden");
+        } else {
+            tableWrapper.classList.remove("hidden");
+            tableEmpty.classList.add("hidden");
         }
     }
 
@@ -486,12 +457,12 @@ function applyFilters() {
     const cardsContainer = document.getElementById("settlementCards");
     const cardsEmpty = document.getElementById("cardsEmpty");
     if (cardsContainer && cardsEmpty) {
-        if (visibleCards === 0 && allTransactions.length > 0) {
-            cardsContainer.style.display = "none";
-            cardsEmpty.style.display = "flex";
-        } else if (allTransactions.length > 0) {
-            cardsContainer.style.display = "grid";
-            cardsEmpty.style.display = "none";
+        if (allTransactions.length === 0 || visibleCards === 0) {
+            cardsContainer.classList.add("hidden");
+            cardsEmpty.classList.remove("hidden");
+        } else {
+            cardsContainer.classList.remove("hidden");
+            cardsEmpty.classList.add("hidden");
         }
     }
 }
@@ -620,12 +591,7 @@ function renderAdminTable() {
         const fromName = s.from?.name || "—";
         const toName = s.to?.name || "—";
         
-        let actionHtml = `<button class="status-paid-btn" disabled><i class="fa-solid fa-check"></i> Paid</button>`;
-        if (s.status === "Pending") {
-            actionHtml = `<button class="action-btn pay-btn" data-id="${s._id}">
-                <i class="fa-solid fa-check"></i> Confirm Paid
-            </button>`;
-        }
+        const actionHtml = SpendShare.getSettlementActionHtml(SpendShare.getAuth(), s);
 
         return `
             <tr class="fade-in">

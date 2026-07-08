@@ -81,7 +81,11 @@ function initLoginForm() {
 
             SpendShare.showToast("Welcome back!", "success");
             setTimeout(() => {
-                window.location.href = "../member/dashboard.html";
+                if (data.member && data.member.role === "admin") {
+                    window.location.href = "../admin/admin-dashboard.html";
+                } else {
+                    window.location.href = "../member/dashboard.html";
+                }
             }, 800);
 
         } catch (error) {

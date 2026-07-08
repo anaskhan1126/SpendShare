@@ -122,14 +122,14 @@
                         <h2 id="welcomeText">Welcome back 👋</h2>
                         <p id="welcomeSubtitle">Manage your flat, members, expenses, and settlements.</p>
                     </div>
-                    <div class="welcome-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <div class="welcome-actions">
                         <a href="add-member.html" class="btn-primary">
                             <i class="fa-solid fa-user-plus"></i> Add Member
                         </a>
-                        <div class="share-code-container" style="display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); padding: 8px 16px; border-radius: var(--radius-md); box-shadow: var(--shadow-xs);">
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Flat Share Code:</span>
-                            <strong id="flatCodeDisplay" style="font-size: 14px; color: var(--primary); font-family: monospace; letter-spacing: 0.05em;">—</strong>
-                            <button id="copyCodeBtn" title="Copy Code" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: color var(--transition);">
+                        <div class="share-code-container">
+                            <span class="share-code-label">Flat Share Code:</span>
+                            <strong id="flatCodeDisplay">—</strong>
+                            <button id="copyCodeBtn" title="Copy Code">
                                 <i class="fa-regular fa-copy"></i>
                             </button>
                         </div>

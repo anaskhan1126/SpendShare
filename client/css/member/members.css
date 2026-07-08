@@ -2,8 +2,19 @@
    MEMBERS PAGE
 =========================== */
 
+html,
+body,
+.main-content,
+.members-container,
+.app-container,
+.main,
 .page-content {
-    padding: 24px 28px 40px;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+.page-content {
+    padding: 24px 24px 40px;
     max-width: 1200px;
 }
 
@@ -18,6 +29,26 @@
     padding: 24px;
     box-shadow: var(--shadow-sm);
     margin-bottom: 20px;
+}
+
+.panel-card,
+.stat-mini,
+.member-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.stats-row > *,
+.member-cards-grid > *,
+.filter-row > *,
+.section-header > *,
+.page-content > *,
+.panel-card > *,
+.main > * {
+    min-width: 0;
+    max-width: 100%;
 }
 
 /* ===========================
@@ -46,7 +77,7 @@
 
 .stats-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     margin-bottom: 20px;
 }
@@ -203,10 +234,19 @@
 .member-avatar.alt-3 { background: linear-gradient(135deg, #EA580C, #F59E0B); }
 .member-avatar.alt-4 { background: linear-gradient(135deg, #DC2626, #EF4444); }
 
+.member-card-info {
+    min-width: 0;
+    flex: 1;
+}
+
 .member-card-info h4 {
     font-size: 15px;
     font-weight: 700;
     margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
 .member-card-info p {
@@ -215,12 +255,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 160px;
+    max-width: 100%;
 }
 
 .member-card-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
 }
 
@@ -295,7 +335,11 @@
 =========================== */
 
 .table-wrapper {
+    width: 100%;
+    max-width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
     border: 1px solid var(--border-light);
     border-radius: var(--radius-md);
 }
@@ -303,7 +347,7 @@
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    min-width: 750px;
 }
 
 .data-table th {
@@ -526,34 +570,114 @@
    RESPONSIVE
 =========================== */
 
+@media (max-width: 1024px) {
+    .page-content {
+        padding: 20px 20px 40px;
+    }
+
+    .panel-card,
+    .stat-mini,
+    .member-card {
+        padding: 20px;
+    }
+
+    .stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .member-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filter-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
     .page-content {
         padding: 16px;
     }
 
-    .stats-row {
-        grid-template-columns: 1fr;
+    .panel-card,
+    .stat-mini,
+    .member-card {
+        padding: 16px;
     }
 
-    .filter-row {
-        grid-template-columns: 1fr;
+    .stats-row {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .member-cards-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .member-card-top {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .member-card-info {
+        min-width: 100%;
+        flex: none;
+    }
+
+    .filter-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .data-table {
+        min-width: 500px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .modal {
+        padding: 12px;
+    }
+
+    .modal-content {
+        max-width: 100%;
+    }
+
+    .modal-header {
+        padding: 16px 20px;
+    }
+
+    .modal-body {
+        padding: 16px 20px;
     }
 
     .detail-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .member-card-info p {
-        max-width: 100%;
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
 @media (max-width: 480px) {
+    .page-content {
+        padding: 12px;
+    }
+
+    .panel-card,
+    .stat-mini,
+    .member-card {
+        padding: 12px;
+    }
+
     .stat-mini h3 {
         font-size: 18px;
+    }
+
+    .modal-header {
+        padding: 12px 16px;
+    }
+
+    .modal-body {
+        padding: 12px 16px;
     }
 }

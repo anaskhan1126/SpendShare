@@ -1,5 +1,5 @@
-let trendChart;
-let categoryChart;
+let activeChart;
+let activeTab = "trend";
 let allExpenses = [];
 let filteredExpenses = [];
 let flatMembers = [];
@@ -27,6 +27,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("printBtn")?.addEventListener("click", () => window.print());
     document.getElementById("pdfBtn")?.addEventListener("click", exportPDF);
     document.getElementById("excelBtn")?.addEventListener("click", exportExcel);
+
+    // Initialize Analytics tabs listeners
+    const tabs = document.querySelectorAll(".analytics-tabs .tab-btn");
+    tabs.forEach(tab => {
+        tab.addEventListener("click", (e) => {
+            tabs.forEach(t => t.classList.remove("active"));
+            e.target.classList.add("active");
+            activeTab = e.target.getAttribute("data-tab");
+            updateChartsForFilteredData(filteredExpenses);
+        });
+    });
+
+    // Theme toggle listener to redraw chart immediately
+    document.getElementById("themeToggle")?.addEventListener("click", () => {
+        setTimeout(() => {
+            updateChartsForFilteredData(filteredExpenses);
+        }, 50);
+    });
 
     // Interactive Summary Cards navigation listeners
     // Interactive Summary Cards navigation listeners
@@ -388,10 +406,14 @@ function calculateMonthlyStats(expenses) {
 
 function renderMemberContributions(memberBalances) {
     const tbody = document.getElementById("contributionsBody");
+    const cardsContainer = document.getElementById("contributionsCards");
     if (!tbody) return;
 
     if (!memberBalances || memberBalances.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No members loaded</td></tr>`;
+        if (cardsContainer) {
+            cardsContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px;">No members loaded</div>`;
+        }
         return;
     }
 
@@ -427,13 +449,64 @@ function renderMemberContributions(memberBalances) {
                         <strong>${escapeHtml(m.name)}</strong>
                     </div>
                 </td>
-                <td>₹${paid.toFixed(2)}</td>
-                <td>₹${equalShare.toFixed(2)}</td>
-                <td style="color: ${statusColor}; font-weight: 700;">${balanceText}</td>
-                <td>${statusBadge}</td>
+                <td class="text-right">₹${paid.toFixed(2)}</td>
+                <td class="text-right">₹${equalShare.toFixed(2)}</td>
+                <td class="text-right" style="color: ${statusColor}; font-weight: 700;">${balanceText}</td>
+                <td class="text-center">${statusBadge}</td>
             </tr>
         `;
     }).join("");
+
+    if (cardsContainer) {
+        cardsContainer.innerHTML = memberBalances.map(m => {
+            const paid = m.paid || 0;
+            const equalShare = m.equalShare || 0;
+            const balance = m.balance || 0;
+            
+            let statusBadge = "";
+            let statusColor = "";
+            if (balance > 0.01) {
+                statusBadge = `<span style="background:#e0f2fe; color:#0369a1; padding: 4px 8px; border-radius: 4px; font-weight:600; font-size:12px;">Gets Back</span>`;
+                statusColor = "#0284c7";
+            } else if (balance < -0.01) {
+                statusBadge = `<span style="background:#fef3c7; color:#b45309; padding: 4px 8px; border-radius: 4px; font-weight:600; font-size:12px;">Needs to Pay</span>`;
+                statusColor = "#d97706";
+            } else {
+                statusBadge = `<span style="background:#f3f4f6; color:#374151; padding: 4px 8px; border-radius: 4px; font-weight:600; font-size:12px;">Settled</span>`;
+                statusColor = "inherit";
+            }
+
+            const balanceText = balance >= 0.01 
+                ? `+₹${balance.toFixed(2)}` 
+                : (balance <= -0.01 ? `-₹${Math.abs(balance).toFixed(2)}` : `₹0.00`);
+
+            return `
+                <div class="mobile-card">
+                    <div class="mobile-card-row header-row">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div style="width:30px; height:30px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px;">
+                                ${getInitials(m.name)}
+                            </div>
+                            <span class="mobile-card-value title">${escapeHtml(m.name)}</span>
+                        </div>
+                        <div>${statusBadge}</div>
+                    </div>
+                    <div class="mobile-card-row">
+                        <span class="mobile-card-label">Total Paid</span>
+                        <span class="mobile-card-value">₹${paid.toFixed(2)}</span>
+                    </div>
+                    <div class="mobile-card-row">
+                        <span class="mobile-card-label">Equal Share</span>
+                        <span class="mobile-card-value">₹${equalShare.toFixed(2)}</span>
+                    </div>
+                    <div class="mobile-card-row border-top">
+                        <span class="mobile-card-label">Net Balance</span>
+                        <span class="mobile-card-value amount" style="color:${statusColor};"><strong>${balanceText}</strong></span>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
 }
 
 // ======================================
@@ -442,12 +515,16 @@ function renderMemberContributions(memberBalances) {
 
 function displayExpenses(expenses) {
     const tbody = document.getElementById("reportBody");
+    const cardsContainer = document.getElementById("reportCards");
     if (!tbody) return;
 
     tbody.innerHTML = "";
+    if (cardsContainer) {
+        cardsContainer.innerHTML = "";
+    }
 
     if (expenses.length === 0) {
-        tbody.innerHTML = `
+        const emptyHtml = `
             <tr>
                 <td colspan="7" style="text-align: center; padding: 48px 16px; color: var(--text-muted);">
                     <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
@@ -458,6 +535,19 @@ function displayExpenses(expenses) {
                 </td>
             </tr>
         `;
+        tbody.innerHTML = emptyHtml;
+
+        if (cardsContainer) {
+            cardsContainer.innerHTML = `
+                <div style="text-align: center; padding: 32px 16px; color: var(--text-muted); border: 1px solid var(--border-light); border-radius: var(--radius-lg); background: var(--background);">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-receipt" style="font-size: 32px; color: #d1d5db;"></i>
+                        <strong>No Expenses Found</strong>
+                        <p style="font-size:12px; margin:0;">No items match the active filters.</p>
+                    </div>
+                </div>
+            `;
+        }
         return;
     }
 
@@ -472,13 +562,56 @@ function displayExpenses(expenses) {
                 <td>${new Date(expense.expenseDate).toLocaleDateString("en-IN")}</td>
                 <td><strong>${escapeHtml(expense.title)}</strong></td>
                 <td>${escapeHtml(paidByName)}</td>
-                <td><span class="badge badge-primary">${escapeHtml(expense.category)}</span></td>
-                <td style="text-align:right; font-weight:700;">₹${Number(expense.amount).toFixed(2)}</td>
-                <td>${escapeHtml(expense.paymentMethod || "—")}</td>
-                <td style="text-align:center;">${hasReceipt}</td>
+                <td class="text-center"><span class="badge badge-primary">${escapeHtml(expense.category)}</span></td>
+                <td class="text-right" style="font-weight:700;">₹${Number(expense.amount).toFixed(2)}</td>
+                <td class="text-center">${escapeHtml(expense.paymentMethod || "—")}</td>
+                <td class="text-center">${hasReceipt}</td>
             </tr>
         `;
     });
+
+    if (cardsContainer) {
+        let cardsHtml = "";
+        expenses.forEach(expense => {
+            const paidByName = expense.paidBy ? (expense.paidBy.name || "Unknown") : "Unknown";
+            const hasReceipt = expense.receipt
+                ? `<a href="${SpendShare.API_BASE}/uploads/${expense.receipt}" target="_blank" style="color:var(--primary); font-weight:600;"><i class="fa-solid fa-file-invoice"></i> View</a>`
+                : `<span style="color:var(--text-muted);">None</span>`;
+
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            const formattedDate = new Date(expense.expenseDate).toLocaleDateString("en-IN", options);
+
+            cardsHtml += `
+                <div class="mobile-card">
+                    <div class="mobile-card-row header-row">
+                        <span class="mobile-card-value title"><strong>${escapeHtml(expense.title)}</strong></span>
+                        <span class="badge badge-primary">${escapeHtml(expense.category)}</span>
+                    </div>
+                    <div class="mobile-card-row">
+                        <span class="mobile-card-label">Paid By</span>
+                        <span class="mobile-card-value">${escapeHtml(paidByName)}</span>
+                    </div>
+                    <div class="mobile-card-row">
+                        <span class="mobile-card-label">Payment Method</span>
+                        <span class="mobile-card-value">${escapeHtml(expense.paymentMethod || "—")}</span>
+                    </div>
+                    <div class="mobile-card-row">
+                        <span class="mobile-card-label">Date</span>
+                        <span class="mobile-card-value">${formattedDate}</span>
+                    </div>
+                    <div class="mobile-card-row">
+                        <span class="mobile-card-label">Receipt</span>
+                        <span class="mobile-card-value">${hasReceipt}</span>
+                    </div>
+                    <div class="mobile-card-row border-top">
+                        <span class="mobile-card-label">Amount</span>
+                        <span class="mobile-card-value amount">₹${Number(expense.amount).toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
+        });
+        cardsContainer.innerHTML = cardsHtml;
+    }
 }
 
 // ======================================
@@ -501,106 +634,183 @@ function searchFilterExpenses() {
 // ======================================
 
 function updateChartsForFilteredData(expenses) {
-    // 1. Category Breakdown
-    const catMap = {};
-    expenses.forEach(e => {
-        catMap[e.category] = (catMap[e.category] || 0) + e.amount;
-    });
-
-    const categoryData = Object.keys(catMap).map(cat => ({
-        category: cat,
-        amount: catMap[cat]
-    }));
-    drawCategoryChart(categoryData);
-
-    // 2. Trend Breakdown
-    const trendMap = {};
-    expenses.forEach(e => {
-        const dateStr = new Date(e.expenseDate).toLocaleDateString("en-IN");
-        trendMap[dateStr] = (trendMap[dateStr] || 0) + e.amount;
-    });
-    
-    const trendData = Object.keys(trendMap).map(date => ({
-        label: date,
-        amount: trendMap[date]
-    }));
-    drawTrendChart(trendData);
-}
-
-// ======================================
-// Monthly Spending Trend Chart
-// ======================================
-
-function drawTrendChart(trend) {
-    const ctx = document.getElementById("trendChart");
+    const ctx = document.getElementById("analyticsChart");
     if (!ctx) return;
 
-    if (trendChart) {
-        trendChart.destroy();
+    if (activeChart) {
+        activeChart.destroy();
     }
 
-    trendChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: trend.map(item => item.label),
-            datasets: [{
-                label: "Total Expense",
-                data: trend.map(item => item.amount),
-                backgroundColor: "#7c3aed",
-                borderRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
+    const theme = getThemeColors();
+
+    if (activeTab === "trend") {
+        const trendMap = {};
+        expenses.forEach(e => {
+            const dateStr = new Date(e.expenseDate).toLocaleDateString("en-IN");
+            trendMap[dateStr] = (trendMap[dateStr] || 0) + e.amount;
+        });
+        
+        const trendData = Object.keys(trendMap).map(date => ({
+            label: date,
+            amount: trendMap[date]
+        }));
+
+        activeChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: trendData.map(item => item.label),
+                datasets: [{
+                    label: "Total Expense",
+                    data: trendData.map(item => item.amount),
+                    backgroundColor: theme.primary,
+                    borderRadius: 6
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: "index",
+                        intersect: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: theme.grid
+                        },
+                        ticks: {
+                            color: theme.text
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: theme.grid
+                        },
+                        ticks: {
+                            color: theme.text
+                        }
+                    }
                 }
             }
-        }
-    });
+        });
+    } else if (activeTab === "category") {
+        const catMap = {};
+        expenses.forEach(e => {
+            catMap[e.category] = (catMap[e.category] || 0) + e.amount;
+        });
+
+        const categoryData = Object.keys(catMap).map(cat => ({
+            category: cat,
+            amount: catMap[cat]
+        }));
+
+        const total = categoryData.reduce((sum, item) => sum + item.amount, 0);
+
+        activeChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: categoryData.map(item => {
+                    const pct = total > 0 ? ((item.amount / total) * 100).toFixed(0) : 0;
+                    return `${item.category} (${pct}%)`;
+                }),
+                datasets: [{
+                    data: categoryData.map(item => item.amount),
+                    backgroundColor: theme.colors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            color: theme.text,
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` ₹${context.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    } else if (activeTab === "member") {
+        // Build map of contributions per member name
+        const memberData = lastMemberBalances.map(m => ({
+            name: m.name,
+            paid: m.paid || 0
+        }));
+
+        activeChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: memberData.map(item => item.name),
+                datasets: [{
+                    label: "Contribution",
+                    data: memberData.map(item => item.paid),
+                    backgroundColor: theme.colors,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` Total Paid: ₹${context.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: theme.grid
+                        },
+                        ticks: {
+                            color: theme.text
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: theme.grid
+                        },
+                        ticks: {
+                            color: theme.text
+                        }
+                    }
+                }
+            }
+        });
+    }
 }
 
-// ======================================
-// Category Breakdown Chart
-// ======================================
-
-function drawCategoryChart(categories) {
-    const ctx = document.getElementById("categoryChart");
-    if (!ctx) return;
-
-    if (categoryChart) {
-        categoryChart.destroy();
-    }
-
-    const total = categories.reduce((sum, item) => sum + item.amount, 0);
-
-    categoryChart = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-            labels: categories.map(item => {
-                const pct = total > 0 ? ((item.amount / total) * 100).toFixed(0) : 0;
-                return `${item.category} (${pct}%)`;
-            }),
-            datasets: [{
-                data: categories.map(item => item.amount),
-                backgroundColor: ["#7c3aed", "#10b981", "#3b82f6", "#f59e0b", "#ef4444"]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "bottom"
-                }
-            }
-        }
-    });
+function getThemeColors() {
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    return {
+        text: isDark ? "#cbd5e1" : "#475569",
+        grid: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)",
+        primary: "#7c3aed",
+        colors: ["#7c3aed", "#10b981", "#3b82f6", "#f59e0b", "#ef4444", "#ec4899", "#14b8a6"]
+    };
 }
 
 // ======================================

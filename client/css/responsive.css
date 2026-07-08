@@ -5,18 +5,78 @@
 /* ==========================================
    Global utilities
    ========================================== */
+* {
+    box-sizing: border-box;
+}
+
 html,
 body {
+    width: 100%;
     max-width: 100%;
     overflow-x: hidden;
 }
 
-/* Common box sizing and layout elements */
-.app-container,
-.main,
+.dashboard-content,
+.dashboard-container,
+.page-content,
+.main-content {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+img,
+canvas,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 4. Dashboard container symmetry matches Settlement container (Desktop: 24px 28px 40px) */
 .dashboard-content,
 .page-content {
-    box-sizing: border-box;
+    padding: 24px 28px 40px !important;
+}
+
+/* 7. Card overflow, box-sizing, and desktop padding defaults */
+.panel-card,
+.stat-card,
+.welcome-card,
+.chart-card,
+.recent-card,
+.insights-card,
+.quick-actions-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    padding: 24px !important;
+}
+
+.app-container {
+    display: flex !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.main {
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.panel-card {
+    overflow: hidden !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.table-responsive {
+    width: 100% !important;
+    overflow-x: auto !important;
 }
 
 /* Reusable responsive classes */
@@ -94,14 +154,9 @@ body {
 
 /* 992px (Tablet View) */
 @media (max-width: 992px) {
-    /* Global/Layout */
-    .main {
-        margin-left: var(--sidebar-collapsed);
-    }
-
     /* Grid layouts */
     .main .summary-cards {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
     }
 
@@ -109,21 +164,20 @@ body {
     .main .insights-row,
     .main .bottom-row,
     .main .form-grid,
-    .main .grid-2-cols,
-    .main .split-layout,
-    .main .layout-2-cols {
+    .main .settings-layout,
+    .main .info-grid,
+    .main .detail-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
     .main .insights-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
     }
 
     /* Table responsive wrappers */
     .main .table-wrapper,
-    .main .table-container,
     .main .table-responsive {
         width: 100%;
         overflow-x: auto;
@@ -134,54 +188,318 @@ body {
         -webkit-overflow-scrolling: touch;
     }
 
-    .main .data-table,
-    .main .history-table,
-    .main .member-table,
-    .main .report-table,
-    .main .expense-table {
+    .main .data-table {
         min-width: 600px;
+    }
+
+    /* 8. Navbar: Reduce spacing on tablet */
+    .navbar {
+        padding: 0 16px;
+    }
+
+    /* Tablet spacing overrides (symmetry matches Settlement) */
+    .dashboard-content,
+    .page-content {
+        padding: 20px !important;
+    }
+
+    /* 3. Dashboard Cards: Remove every fixed width and enforce 20px padding */
+    .stat-card,
+    .panel-card,
+    .welcome-card,
+    .quick-actions-card,
+    .insights-card,
+    .recent-card,
+    .settlement-card,
+    .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 20px !important;
+    }
+
+    /* Quick Actions (Tablet: 2 columns) */
+    .quick-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+    }
+
+    /* Tablet Typography */
+    h1, .navbar h1, h2, .welcome-card h2 {
+        font-size: 26px !important;
+    }
+    body, p, td, .stat-label, .panel-subtitle, .welcome-date {
+        font-size: 15px !important;
     }
 }
 
-/* 768px (Mobile Landscape & Tablet Portrait) */
-@media (max-width: 768px) {
-    /* Global/Layout */
+/* 7. Sidebar collapsed on Tablet (769px to 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+    .sidebar {
+        width: 72px !important;
+    }
+    .sidebar .logo h2 {
+        display: none !important;
+    }
+    .sidebar .menu li a span,
+    .sidebar .logout a span {
+        display: none !important;
+    }
+    .sidebar .menu li a,
+    .sidebar .logout a {
+        justify-content: center;
+        padding: 12px !important;
+    }
+    .sidebar .logo {
+        padding: 0 !important;
+        justify-content: center;
+    }
     .main {
-        margin-left: 0;
+        margin-left: 72px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 7. Sidebar hidden drawer on Mobile */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 260px !important;
+        transition: transform var(--transition-slow);
+    }
+    .sidebar.open {
+        transform: translateX(0) !important;
+    }
+    .main {
+        margin-left: 0 !important;
+    }
+    #menuBtn {
+        display: flex !important;
     }
 
+    /* 8. Navbar: Mobile layout */
+    .navbar {
+        padding: 0 12px !important;
+    }
+    #notificationBtn,
+    .navbar .icon-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-height: 36px !important;
+    }
+    .navbar .search-bar,
+    .navbar .search-input,
+    .navbar input[type="text"] {
+        width: 100% !important;
+    }
+    .profile-info {
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    /* 16. Profile Section: Vertical alignment */
+    .profile-trigger {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 6px !important;
+    }
+    .profile-trigger img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    .navbar .profile-trigger img {
+        width: 36px !important;
+        height: 36px !important;
+    }
+    .profile-info {
+        display: block !important;
+        text-align: center !important;
+    }
+    .profile-trigger .chevron {
+        display: none !important;
+    }
+
+    .dashboard-content,
+    .page-content,
     .main .dashboard-content,
     .main .page-content {
-        padding: 16px 12px 30px;
+        padding: 16px !important;
+    }    /* 1. Recent Expenses Card Table scroll */
+    .table-wrapper {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .table-wrapper table,
+    .table-wrapper .data-table {
+        width: 100% !important;
+        min-width: 650px !important;
     }
 
-    /* Grid layouts (reusable components) */
+    /* 5. Table font sizes and nowrap cells */
+    .data-table th,
+    .data-table td,
+    .data-table tr td {
+        font-size: 13px !important;
+        white-space: nowrap !important;
+    }
+
+    /* 2. Settlement Overview Mobile alignment */
+    .settlement-item {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+    .settlement-flow {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+    .settlement-flow .arrow {
+        transform: rotate(90deg) !important;
+        display: inline-block !important;
+        margin: 2px 0 2px 10px !important;
+    }
+    .settlement-amount {
+        width: 100% !important;
+        text-align: left !important;
+    }
+
+    /* Smart settlement page items */
+    .smart-item {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+    }
+    .smart-flow {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+    .smart-names {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+    .smart-names .arrow {
+        transform: rotate(90deg) !important;
+        display: inline-block !important;
+        margin: 2px 0 2px 10px !important;
+    }
+    .smart-amount {
+        width: 100% !important;
+        text-align: left !important;
+    }
+    .smart-item .action-btn,
+    .smart-item .waiting-badge {
+        width: 100% !important;
+    }
+
+    /* 4. Card Headers vertical stack */
+    .panel-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+    .panel-header .view-all-link {
+        margin-top: 4px !important;
+    }
+
+    /* 6. Settlement Card updates */
+    .settlement-card h4,
+    .smart-names {
+        flex-wrap: wrap !important;
+        white-space: normal !important;
+    }
+    .settlement-card .card-amount,
+    .settlement-card .settlement-amount {
+        word-break: break-all !important;
+        white-space: normal !important;
+    }
+    .settlement-card .action-btn,
+    .settlement-card button,
+    .smart-item button,
+    .smart-item .waiting-badge {
+        width: 100% !important;
+    }
+    .smart-avatar {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 14px !important;
+    }
+
+    /* Quick Actions (Mobile: 1 column) */
+    .quick-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+    .quick-action-btn {
+        width: 100% !important;
+        min-height: 48px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* 3. Dashboard Cards: Remove every fixed width and enforce 16px padding */
+    .stat-card,
+    .panel-card,
+    .welcome-card,
+    .quick-actions-card,
+    .insights-card,
+    .recent-card,
+    .settlement-card,
+    .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 16px !important;
+    }
+
+    /* Grid layouts - stack to 1fr on mobile screens */
     .main .summary-cards,
     .main .insights-grid,
-    .main .grid-3-cols,
-    .main .grid-4-cols,
-    .main .dashboard-grid,
-    .main .stats-grid,
-    .main .profile-grid,
-    .main .members-grid,
-    .main .expenses-grid,
-    .main .settlement-grid,
-    .main .form-layout,
-    .main .form-row,
-    .main .grid-layout,
-    .main .analytics,
+    .main .settlement-cards-grid,
+    .main .member-cards-grid,
+    .main .quick-links,
     .main .stats-row,
-    .main .filter-grid,
-    .main .filter-row,
-    .main .quick-links {
-        grid-template-columns: 1fr;
+    .main .detail-grid,
+    .main .analytics,
+    .main .info-grid,
+    .main .settings-layout,
+    .main .form-grid,
+    .main .form-layout,
+    .main .charts-row,
+    .main .insights-row,
+    .main .bottom-row {
+        grid-template-columns: 1fr !important;
         gap: 12px;
     }
 
-    .main .split-layout,
-    .main .layout-2-cols,
-    .main .form-grid {
-        gap: 12px; /* Inherit 1fr stacking layout from 992px */
+    /* Overriding inline styles for grids inside panels */
+    .main .panel-card > div:not(.section-header):not(.panel-header):not(.table-wrapper):not(.chart-wrapper):not(.empty-state) {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .main .panel-card > div:not(.section-header):not(.panel-header):not(.table-wrapper):not(.chart-wrapper):not(.empty-state) > div {
+        grid-column: span 1 !important;
     }
 
     /* Page headers */
@@ -196,16 +514,14 @@ body {
         font-size: 20px;
     }
 
-    .main .page-header .btn,
     .main .page-header .btn-ghost,
-    .main .page-header .btn-primary,
-    .main .page-header .btn-secondary,
-    .main .page-header .btn-action {
+    .main .page-header .btn-action,
+    .main .page-header .btn-refresh {
         width: 100%;
         justify-content: center;
     }
 
-    /* Cards */
+    /* Cards spacing */
     .main .welcome-card {
         flex-direction: column;
         align-items: flex-start;
@@ -226,40 +542,22 @@ body {
         justify-content: center;
     }
 
-    /* Navbar */
-    .main .profile-trigger .profile-info {
-        display: none;
-    }
-
-    .main .profile-trigger {
-        padding: 4px;
-    }
-
-    .main .navbar {
-        padding: 0 16px;
-    }
-
     /* Form control wrapping */
     .main .filter-row,
-    .main .search-filter-row,
     .main .button-group,
-    .main .action-group,
     .main .quick-actions {
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
     }
 
-    .main .filter-item,
-    .main .search-box,
-    .main .search-container {
+    .main .filter-item {
         width: 100%;
         max-width: 100%;
     }
 
     .main .filter-item select,
-    .main .filter-item input,
-    .main .search-box input {
+    .main .filter-item input {
         width: 100%;
     }
 }
@@ -267,18 +565,16 @@ body {
 /* 576px (Mobile Portrait) */
 @media (max-width: 576px) {
     /* Form fields stretch to full width */
-    .main .form-control,
-    .main .input-field input,
-    .main .select-field select,
     .main .float-group input,
     .main .float-group select,
     .main .float-group textarea,
     .main .filter-item select,
     .main .filter-item input,
-    .main .search-box input,
-    .main .search-container input,
-    .main .input-group input,
-    .login-container .input-field input {
+    .main .filter-grid select,
+    .main .filter-grid input,
+    .main .filter-row select,
+    .main .filter-row input,
+    .main .share-input-group input {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -286,16 +582,14 @@ body {
     }
 
     /* ONLY buttons inside forms should become full width */
-    .main form .btn,
-    .main form .btn-primary,
-    .main form .btn-secondary,
-    .main form .btn-ghost,
     .main form .btn-submit,
     .main form .btn-reset,
-    .main form .btn-action,
-    .main form .action-btn,
-    .login-container form .login-btn,
-    .register-container form .register-btn {
+    .main form .btn-save,
+    .main form .btn-cancel,
+    .main .confirm-actions .btn-cancel,
+    .main .confirm-actions .btn-confirm,
+    .main .modal-actions .btn-cancel,
+    .main .modal-actions .btn-save {
         width: 100%;
         max-width: 100%;
         justify-content: center;
@@ -304,19 +598,18 @@ body {
         font-size: 14px;
     }
 
-    /* Cards become full width (specific card classes replacing .card) */
+    /* Cards stack to 100% width (specific card classes replacing .card) */
     .main .stat-card,
     .main .panel-card,
     .main .summary-card,
     .main .chart-card,
     .main .welcome-card,
     .main .form-card,
-    .main .profile-card,
     .main .insight-item,
     .main .quick-link-card,
     .main .danger-card,
-    .login-container .login-card,
-    .register-container .register-card {
+    .main .member-card,
+    .main .settlement-card {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -330,8 +623,7 @@ body {
     }
 
     .main .modal-content,
-    .main .modal-body,
-    .main .popup-content {
+    .main .modal-body {
         width: 100%;
         max-width: 98%;
         padding: 16px;
@@ -339,12 +631,11 @@ body {
         box-sizing: border-box;
     }
 
-    .main .modal-header,
-    .main .modal-footer {
+    .main .modal-header {
         padding: 12px 16px;
     }
 
-    /* Navbar title adjustment */
+    /* Typography font sizes */
     .main .navbar h1 {
         font-size: 18px;
     }
@@ -392,72 +683,51 @@ body {
         gap: 6px;
         width: 100%;
     }
-
-    /* Dynamic elements spacing adjustments */
-    .main .member-item,
-    .main .expense-item,
-    .main .detail-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-    .main .member-actions,
-    .main .expense-actions {
-        width: 100%;
-        justify-content: flex-start;
-    }
 }
 
-/* 375px (Small Screen Mobile Devices) */
-@media (max-width: 375px) {
+/* 480px (Mobile Small Screen Optimization) */
+@media (max-width: 480px) {
     .main .navbar h1 {
-        font-size: 15px;
+        font-size: 15px !important;
     }
 
     .main .stat-value {
-        font-size: 18px;
+        font-size: 18px !important;
     }
 
+    .dashboard-content,
+    .page-content,
     .main .dashboard-content,
     .main .page-content {
-        padding: 12px 8px 24px;
+        padding: 12px !important;
     }
 
-    .main .panel-card {
-        padding: 16px;
-    }
-}
-
-/* 320px (High Priority 320px Screen Optimization) */
-@media (max-width: 320px) {
-    /* Prevent any padding-related overflow */
-    .main .dashboard-content,
-    .main .page-content {
-        padding: 8px 6px 20px;
-    }
-
-    .main .panel-card,
-    .main .stat-card {
-        padding: 12px 10px;
+    .panel-card,
+    .stat-card,
+    .welcome-card,
+    .chart-card,
+    .recent-card,
+    .insights-card,
+    .quick-actions-card,
+    .card {
+        padding: 12px !important;
     }
 
     .main .modal-content,
-    .main .modal-body,
-    .main .popup-content {
-        padding: 12px;
-        margin: 5px auto;
+    .main .modal-body {
+        padding: 12px !important;
+        margin: 5px auto !important;
     }
 
     /* Ensure text labels wrap nicely without collision */
     .main .stat-card-content {
-        gap: 10px;
+        gap: 10px !important;
     }
 
     .main .stat-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 16px !important;
     }
 
     /* Reduce vertical gaps and margins */
@@ -467,15 +737,14 @@ body {
     .main .insights-row,
     .main .bottom-row,
     .main .stats-row,
-    .main .filter-grid,
     .main .filter-row {
-        gap: 8px;
-        margin-bottom: 12px;
+        gap: 8px !important;
+        margin-bottom: 12px !important;
     }
 
     .main .panel-card,
     .main .stat-card,
     .main .welcome-card {
-        margin-bottom: 12px;
+        margin-bottom: 12px !important;
     }
 }

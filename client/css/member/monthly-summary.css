@@ -2,18 +2,591 @@
    SpendShare — Monthly Summary Unique Styles
    ========================================================================== */
 
+.page-content {
+    padding: 24px 24px 40px !important;
+}
+
+.show-on-mobile {
+    display: none !important;
+}
+
+.hide-on-mobile {
+    display: block !important;
+}
+
+/* Helper layout utility classes to replace inline styles */
+.mb-24 {
+    margin-bottom: 24px !important;
+}
+
+.comparison-text {
+    display: block !important;
+    margin-top: 6px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+.text-orange {
+    color: #d97706 !important;
+}
+
+.text-blue {
+    color: #0284c7 !important;
+}
+
+.text-purple {
+    color: #7c3aed !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.border-bottom-none {
+    border-bottom: none !important;
+}
+
+.ai-insights-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
 /* Unique canvas chart constraints */
-.panel-card canvas {
+.panel-card canvas:not(#analyticsChart) {
     width: 100% !important;
-    height: 320px !important;
+    height: auto !important;
+    min-height: 280px !important;
+}
+
+.chart-container,
+.chart-card {
+    width: 100% !important;
+    min-width: 0 !important;
 }
 
 /* Unique layout grid for charts and statistics */
 .analytics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
-    margin-bottom: 24px;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 20px !important;
+    margin-bottom: 24px !important;
+}
+
+/* Analytics Card & Tabs styling */
+.analytics-row {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 24px !important;
+}
+
+.analytics-card {
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-sm) !important;
+    padding: 24px !important;
+}
+
+.analytics-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+    border-bottom: 1px solid var(--border-light) !important;
+    padding-bottom: 16px !important;
+    margin-bottom: 20px !important;
+}
+
+.analytics-tabs {
+    display: flex !important;
+    background: var(--background) !important;
+    padding: 4px !important;
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--border-light) !important;
+    gap: 4px !important;
+}
+
+.tab-btn {
+    padding: 8px 16px !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all var(--transition) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.tab-btn:hover {
+    color: var(--text) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+[data-theme="light"] .tab-btn:hover {
+    background: rgba(0, 0, 0, 0.03) !important;
+}
+
+.tab-btn.active {
+    color: var(--primary) !important;
+    background: var(--card) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* Chart container constraints */
+.chart-container {
+    position: relative !important;
+    height: 340px !important;
+    max-height: 340px !important;
+    width: 100% !important;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 340px !important;
+    max-height: 340px !important;
+}
+
+/* STEP 2 & 3: Parent grid child flex/grid shrink rules */
+.analytics > *,
+.summary-cards > *,
+.dashboard-content > *,
+.panel-card > *,
+.summary-grid > *,
+.report-grid > *,
+.main > *,
+.monthly-summary-content > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+/* STEP 5: Cards size constraints, padding & overflow settings */
+.panel-card,
+.stat-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    padding: 24px !important;
+}
+
+/* STEP 6: Tables responsive wrapper and scrollbar containment */
+.table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: var(--radius-md) !important;
+}
+.table-wrapper table,
+.table-wrapper .data-table {
+    width: 100% !important;
+    min-width: 750px !important;
+    border-collapse: collapse !important;
+}
+.data-table tbody tr {
+    height: 56px !important;
+}
+.data-table th,
+.data-table td {
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    height: 56px !important;
+    vertical-align: middle !important;
+    padding: 8px 16px !important;
+}
+
+/* Equal badges sizing & alignments */
+.data-table .badge,
+#contributionsBody span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+    padding: 0 10px !important;
+    border-radius: 12px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    box-sizing: border-box !important;
+}
+
+/* Filter panel styles */
+.filter-panel-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    gap: 16px !important;
+    width: 100% !important;
+}
+.filter-field-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    width: 100% !important;
+}
+.filter-field-label {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+}
+.filter-field-select,
+.filter-field-input {
+    width: 100% !important;
+    padding: 10px 14px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    background: var(--card) !important;
+    color: var(--text) !important;
+    outline: none !important;
+}
+.filter-actions-row {
+    margin-top: 16px !important;
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+.filter-buttons-group {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+.filter-btn-refresh {
+    padding: 10px 20px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+}
+.filter-btn-export {
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 16px !important;
+    border-radius: var(--radius-md) !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+}
+.search-box-container {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+}
+.search-input-field {
+    padding: 8px 12px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    background: var(--card) !important;
+    color: var(--text) !important;
+    outline: none !important;
+    font-size: 14px !important;
+    width: auto !important;
+}
+
+/* Statistics panel grid */
+.stats-panel-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 20px !important;
+}
+.stat-detail-item {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+.stat-detail-label {
+    font-size: 12px !important;
+    color: var(--text-muted) !important;
+    font-weight: 600 !important;
+}
+.stat-detail-value {
+    font-size: 16px !important;
+}
+.stat-detail-item-wide {
+    grid-column: span 2 !important;
+}
+
+/* Settlements list & insights */
+.settlements-list-container {
+    padding: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    min-height: 150px !important;
+    justify-content: center !important;
+}
+.insights-container {
+    padding: 16px 20px 20px 20px !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    color: var(--text) !important;
+}
+.insights-container ul {
+    margin: 0 !important;
+    padding-left: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+.insights-container li {
+    margin-bottom: 4px !important;
+    line-height: 1.75 !important;
+}
+
+/* Responsive Breakpoints matching Dashboard and Settlement pages */
+@media (max-width: 992px) {
+    /* Tablet spacing */
+    .dashboard-content,
+    .page-content {
+        padding: 20px !important;
+    }
+
+    .panel-card,
+    .stat-card {
+        padding: 20px !important;
+    }
+
+    .analytics {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; /* Analytics remains 2 cols on tablet */
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important; /* Summary cards: 2 cols on tablet */
+    }
+
+    /* Tablet Typography */
+    h1, .navbar h1, h2, .page-header h2 {
+        font-size: 26px !important;
+    }
+    body, p, td, .stat-label, .panel-subtitle, select, input {
+        font-size: 15px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile spacing */
+    .dashboard-content,
+    .page-content {
+        padding: 16px !important;
+    }
+
+    .panel-card,
+    .stat-card {
+        padding: 16px !important;
+    }
+
+    .analytics {
+        grid-template-columns: minmax(0, 1fr) !important; /* Analytics: 1 col on mobile */
+    }
+
+    .summary-cards {
+        grid-template-columns: minmax(0, 1fr) !important; /* Summary cards: 1 col on mobile */
+    }
+
+    .stats-panel-grid {
+        grid-template-columns: minmax(0, 1fr) !important; /* Stats panel: 1 col on mobile */
+    }
+    .stat-detail-item-wide {
+        grid-column: span 1 !important;
+    }
+
+    /* STEP 7: Header vertical stack */
+    .page-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+
+    /* STEP 9 & 10: Forms & Buttons expansion */
+    .filter-panel-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .filter-actions-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .filter-buttons-group {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .filter-btn-refresh,
+    .filter-btn-export {
+        width: 100% !important;
+        justify-content: center !important;
+        min-height: 44px !important;
+    }
+
+    .section-header,
+    .analytics-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .analytics-tabs {
+        width: 100% !important;
+        flex-direction: column !important;
+        box-sizing: border-box !important;
+    }
+
+    .tab-btn {
+        width: 100% !important;
+    }
+
+    .search-box-container {
+        width: 100% !important;
+    }
+
+    .search-input-field {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .show-on-mobile {
+        display: block !important;
+    }
+
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+    .chart-container {
+        height: 280px !important;
+        max-height: 280px !important;
+    }
+
+    .chart-container canvas {
+        height: 280px !important;
+        max-height: 280px !important;
+    }
+
+    /* Mobile responsive cards style */
+    .cards-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        width: 100% !important;
+        margin-top: 15px !important;
+    }
+
+    .mobile-card {
+        background: var(--background) !important;
+        border: 1px solid var(--border-light) !important;
+        border-radius: var(--radius-lg) !important;
+        padding: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        transition: all var(--transition) !important;
+    }
+
+    .mobile-card:hover {
+        border-color: var(--primary-glow) !important;
+        box-shadow: var(--shadow-sm) !important;
+    }
+
+    .mobile-card-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        gap: 8px !important;
+    }
+
+    .mobile-card-row.border-top {
+        border-top: 1px dashed var(--border-light) !important;
+        padding-top: 10px !important;
+        margin-top: 4px !important;
+    }
+
+    .mobile-card-row.header-row {
+        border-bottom: 1px solid var(--border-light) !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .mobile-card-label {
+        font-size: 12px !important;
+        color: var(--text-muted) !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.04em !important;
+        text-align: left !important;
+    }
+
+    .mobile-card-value {
+        font-weight: 700 !important;
+        color: var(--text) !important;
+        text-align: right !important;
+        word-break: break-word !important;
+    }
+
+    .mobile-card-value.amount {
+        font-size: 16px !important;
+        color: var(--primary) !important;
+    }
+
+    .mobile-card-value.title {
+        font-size: 16px !important;
+        color: var(--text) !important;
+    }
+
+    /* Mobile Typography */
+    h1, .navbar h1, h2, .page-header h2 {
+        font-size: 22px !important;
+    }
+    body, p, td, .stat-label, .panel-subtitle, select, input {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Small Phone spacing */
+    .dashboard-content,
+    .page-content {
+        padding: 12px !important;
+    }
+
+    .panel-card,
+    .stat-card {
+        padding: 12px !important;
+    }
+
+    .stat-value {
+        font-size: 20px !important;
+        word-break: break-all !important;
+        white-space: normal !important;
+    }
 }
 
 /* Print Overrides */

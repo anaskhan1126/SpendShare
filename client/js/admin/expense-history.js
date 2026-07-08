@@ -200,17 +200,21 @@ function updateStats() {
 function renderTable() {
     const tbody = document.getElementById("expenseTableBody");
     const wrap = document.getElementById("tableWrapper");
+    const mobileList = document.getElementById("expenseMobileList");
     const empty = document.getElementById("tableEmpty");
 
     if (!filteredExpenses.length) {
         tbody.innerHTML = "";
-        wrap.style.display = "none";
-        empty.style.display = "flex";
+        if (mobileList) mobileList.innerHTML = "";
+        if (wrap) wrap.classList.add("hidden");
+        if (mobileList) mobileList.classList.add("hidden");
+        if (empty) empty.style.display = "flex";
         return;
     }
 
-    wrap.style.display = "block";
-    empty.style.display = "none";
+    if (wrap) wrap.classList.remove("hidden");
+    if (mobileList) mobileList.classList.remove("hidden");
+    if (empty) empty.style.display = "none";
 
     const start = (currentPage - 1) * PAGE_SIZE;
     const pageData = filteredExpenses.slice(start, start + PAGE_SIZE);
@@ -231,9 +235,52 @@ function renderTable() {
         </tr>
     `).join("");
 
-    tbody.querySelectorAll(".view-btn").forEach(btn => {
-        btn.addEventListener("click", () => openModal(btn.dataset.id));
-    });
+    if (mobileList) {
+        mobileList.innerHTML = pageData.map(expense => `
+            <div class="expense-mobile-card fade-in">
+                <div class="card-header">
+                    <strong>${escapeHtml(expense.title)}</strong>
+                    <span class="card-amount">${SpendShare.formatCurrency(expense.amount)}</span>
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="info-label">Category</span>
+                        <span class="badge badge-primary">${escapeHtml(expense.category)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Paid By</span>
+                        <span class="info-value">${escapeHtml(expense.paidBy?.name || "—")}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Payment</span>
+                        <span class="payment-badge">${escapeHtml(expense.paymentMethod || "—")}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Date</span>
+                        <span class="info-value">${SpendShare.formatDate(expense.expenseDate)}</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="view-btn btn-action-mobile" data-id="${expense._id}">
+                        <i class="fa-solid fa-eye"></i> View Details
+                    </button>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    const handleView = (e) => {
+        const btn = e.target.closest(".view-btn");
+        if (btn) openModal(btn.dataset.id);
+    };
+
+    tbody.removeEventListener("click", handleView);
+    tbody.addEventListener("click", handleView);
+
+    if (mobileList) {
+        mobileList.removeEventListener("click", handleView);
+        mobileList.addEventListener("click", handleView);
+    }
 }
 
 function renderPagination() {

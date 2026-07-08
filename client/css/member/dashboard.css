@@ -7,6 +7,37 @@
     max-width: 1440px;
 }
 
+/* Parent container layout child shrinking fix */
+.bottom-row > *,
+.charts-row > *,
+.insights-row > *,
+.summary-cards > *,
+.main > *,
+.dashboard-content > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* 9. Card shape defaults and auto height */
+.panel-card,
+.stat-card,
+.welcome-card,
+.summary-card,
+.chart-card {
+    border-radius: 16px !important;
+    height: auto !important;
+    min-height: unset !important;
+}
+
+/* 4. Amount wrapping to prevent number overflow */
+.stat-value,
+.amount-cell,
+.settlement-amount {
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: normal !important;
+}
+
 .page-enter {
     animation: fadeIn 0.4s ease;
 }
@@ -124,7 +155,7 @@
 
 .summary-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
     margin-bottom: 24px;
 }
@@ -261,7 +292,7 @@
 
 .charts-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 20px;
     margin-bottom: 24px;
 }
@@ -281,14 +312,14 @@
 
 .insights-row {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     gap: 20px;
     margin-bottom: 24px;
 }
 
 .insights-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
 }
 
@@ -383,7 +414,7 @@
 
 .bottom-row {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     gap: 20px;
 }
 
@@ -509,75 +540,238 @@
 =========================== */
 
 @media (max-width: 1200px) {
+    /* 4. Summary cards layout repeat(2,1fr) */
     .summary-cards {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
     }
 
     .insights-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
 
 @media (max-width: 992px) {
+    /* 2. Container padding */
+    .dashboard-content {
+        padding: 20px !important;
+    }
+
+    /* 9. Card padding and auto heights */
+    .panel-card,
+    .stat-card {
+        padding: 20px !important;
+    }
+
+    /* 3. Welcome card reduced spacing */
+    .welcome-card {
+        padding: 24px !important;
+        gap: 16px !important;
+    }
+
+    /* 5. Expense Overview stack vertically */
     .charts-row,
     .insights-row,
     .bottom-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
 
     .insights-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* 10. Chart wrapper responsive height */
+    .chart-wrapper {
+        height: auto !important;
+        min-height: 250px !important;
+    }
+
+    .chart-wrapper canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* 13. Icon sizes */
+    .stat-icon,
+    .stat-icon i {
+        font-size: 20px !important;
+    }
+
+    /* 14. Typography (Tablet) */
+    h1, .navbar h1, h2, .welcome-card h2 {
+        font-size: 26px !important;
+    }
+
+    h3, .panel-header h3 {
+        font-size: 16px !important;
+    }
+
+    body, p, td, .stat-label, .panel-subtitle, .welcome-date {
+        font-size: 15px !important;
     }
 }
 
 @media (max-width: 768px) {
+    /* 2. Container padding */
     .dashboard-content {
-        padding: 16px;
+        padding: 16px !important;
     }
 
+    /* 9. Card padding */
+    .panel-card {
+        padding: 16px !important;
+    }
+
+    /* 3. Welcome card Mobile stacking */
     .welcome-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-        padding: 24px;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 24px 16px !important;
+        gap: 20px !important;
     }
 
     .welcome-card h2 {
-        font-size: 22px;
+        font-size: 24px !important;
+    }
+
+    .welcome-card p,
+    .welcome-card #welcomeSubtitle {
+        font-size: 15px !important;
     }
 
     .welcome-actions {
-        width: 100%;
-        flex-direction: column;
+        width: 100% !important;
+        flex-direction: column !important;
+        gap: 12px !important;
     }
 
-    .btn-primary,
-    .btn-secondary {
-        justify-content: center;
-        width: 100%;
+    .welcome-actions .btn-primary,
+    .welcome-actions .btn-secondary,
+    .welcome-actions .share-code-container {
+        width: 100% !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
     }
 
+    .welcome-img,
+    .welcome-illustration,
+    .welcome-card img {
+        order: 2 !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* 4. Summary cards Mobile stack */
     .summary-cards {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .stat-card {
+        padding: 18px !important;
+        width: 100% !important;
     }
 
     .insights-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
-    .stat-value {
-        font-size: 20px;
+    /* 11. Recent activity stack */
+    .activity-list,
+    .activity-card .activity-list {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        overflow: hidden !important;
+    }
+
+    .activity-item {
+        width: 100% !important;
+    }
+
+    /* 12. Button min-height and width scaling */
+    .btn-primary,
+    .btn-secondary,
+    .btn-submit,
+    .btn-reset,
+    .btn-save,
+    .btn-cancel,
+    .quick-action-btn,
+    .btn-ghost,
+    .btn-action {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .quick-actions {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .quick-action-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* 13. Icon sizes */
+    .stat-icon,
+    .stat-icon i {
+        font-size: 18px !important;
+    }
+
+    /* 14. Typography (Mobile) */
+    h1, .navbar h1, h2, .welcome-card h2 {
+        font-size: 22px !important;
+    }
+
+    h3, .panel-header h3 {
+        font-size: 15px !important;
+    }
+
+    body, p, td, .stat-label, .panel-subtitle, .welcome-date {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Form grids stacking */
+    .form-grid {
+        grid-template-columns: 1fr !important;
     }
 }
 
 @media (max-width: 480px) {
-    .panel-card {
-        padding: 16px;
+    /* 2. Container padding */
+    .dashboard-content {
+        padding: 12px !important;
+    }
+
+    /* 9. Card padding */
+    .panel-card,
+    .stat-card {
+        padding: 12px !important;
+    }
+
+    .stat-value {
+        font-size: 20px !important;
     }
 
     .data-table th,
     .data-table td {
-        padding: 10px 12px;
-        font-size: 13px;
+        padding: 10px 12px !important;
+        font-size: 13px !important;
     }
-}
+
+    /* 18. Skeleton resizing */
+    .skeleton,
+    .skeleton-card,
+    .chart-skeleton {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+} 

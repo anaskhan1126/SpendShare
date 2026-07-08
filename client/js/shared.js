@@ -237,8 +237,12 @@ const SpendShare = (() => {
     }
 
     function saveMemberSession(data) {
-        clearAdminSession();
         const member = data.member;
+        if (member && member.role === "admin") {
+            saveAdminSession(data);
+            return;
+        }
+        clearAdminSession();
         localStorage.setItem("memberToken", data.token);
         localStorage.setItem("member", JSON.stringify(member));
         localStorage.setItem("memberId", member.id);
@@ -253,17 +257,17 @@ const SpendShare = (() => {
 
     function saveAdminSession(data) {
         clearMemberSession();
-        const admin = data.admin;
+        const admin = data.admin || data.member;
         const flat = data.flat || admin?.flat;
         localStorage.setItem("adminToken", data.token);
-        localStorage.setItem("adminId", admin.id);
+        localStorage.setItem("adminId", admin.id || admin._id);
         localStorage.setItem("adminName", admin.name);
         localStorage.setItem("adminUsername", admin.username || "");
         localStorage.setItem("adminEmail", admin.email || "");
         localStorage.setItem("adminStatus", admin.status || "approved");
-        const memberId = admin.memberId || data.memberId;
+        const memberId = admin.memberId || data.memberId || admin.id || admin._id;
         if (memberId) localStorage.setItem("adminMemberId", memberId);
-        const flatId = admin.flatId || flat?.id;
+        const flatId = admin.flatId || flat?.id || flat?._id;
         if (flatId) localStorage.setItem("adminFlatId", String(flatId));
         if (flat?.name) localStorage.setItem("adminFlatName", flat.name);
         if (flat?.flatCode) localStorage.setItem("adminFlatCode", flat.flatCode);
@@ -687,7 +691,52 @@ const SpendShare = (() => {
         }
     }
 
+    function canConfirmSettlement(currentUser, settlement) {
+        if (!settlement || !currentUser) return false;
+        
+        const status = (settlement.status || "").toLowerCase();
+        if (status !== "pending") return false;
+
+        const currentUserId = (currentUser._id || currentUser.memberId || currentUser.id || "").toString();
+        if (!currentUserId) return false;
+
+        const receiver = settlement.toMember || settlement.to;
+        if (!receiver) return false;
+
+        const receiverId = (receiver._id || receiver).toString();
+        return currentUserId === receiverId;
+    }
+
+    function getSettlementActionHtml(currentUser, settlement) {
+        if (!settlement || !currentUser) return "";
+
+        const status = (settlement.status || "").toLowerCase();
+        if (status === "paid") {
+            return `<button class="status-paid-btn" disabled><i class="fa-solid fa-check"></i> Paid</button>`;
+        }
+
+        if (status === "pending") {
+            if (canConfirmSettlement(currentUser, settlement)) {
+                return `<button class="action-btn pay-btn" data-id="${settlement._id}">
+                    <i class="fa-solid fa-check"></i> Mark Received
+                </button>`;
+            }
+
+            const currentUserId = (currentUser._id || currentUser.memberId || currentUser.id || "").toString();
+            const fromId = (settlement.from?._id || settlement.from || "").toString();
+            if (currentUserId === fromId) {
+                return `<button class="waiting-badge" disabled><i class="fa-solid fa-hourglass-half"></i> Waiting for Receiver</button>`;
+            }
+
+            return `<span class="waiting-badge"><i class="fa-solid fa-clock"></i> Pending</span>`;
+        }
+
+        return "";
+    }
+
     return {
+        canConfirmSettlement,
+        getSettlementActionHtml,
         init,
         initTheme,
         toggleTheme,

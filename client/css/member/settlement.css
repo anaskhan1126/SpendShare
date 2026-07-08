@@ -2,6 +2,29 @@
    SETTLEMENT PAGE
 =========================== */
 
+.show-on-mobile {
+    display: none !important;
+}
+
+.hide-on-mobile {
+    display: block !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+html,
+body,
+.main-content,
+.settlement-container,
+.app-container,
+.main,
+.page-content {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 .page-content {
     padding: 24px 28px 40px;
     max-width: 1200px;
@@ -170,6 +193,8 @@
 }
 
 .pending-badge {
+    display: inline-flex;
+    width: fit-content;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
@@ -219,15 +244,15 @@
 }
 
 .smart-avatar {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: var(--primary-light);
     color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     flex-shrink: 0;
 }
@@ -268,8 +293,11 @@
     white-space: nowrap;
 }
 
-.smart-item .action-btn {
+.smart-item .action-btn,
+.smart-item .waiting-badge {
     flex-shrink: 0;
+    width: auto;
+    padding: 0 16px;
 }
 
 /* ===========================
@@ -281,6 +309,23 @@
     grid-template-columns: 2fr 1fr;
     gap: 12px;
     margin-bottom: 20px;
+}
+
+.admin-filter-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-filter-row .admin-search-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.admin-filter-row .admin-status-group,
+.admin-filter-row .admin-date-group {
+    width: 180px;
 }
 
 .filter-group {
@@ -332,7 +377,7 @@
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    min-width: 700px;
 }
 
 .data-table th {
@@ -540,8 +585,12 @@
     border: 1px solid var(--border-light);
     border-left: 4px solid var(--primary);
     border-radius: var(--radius-md);
-    padding: 20px;
+    padding: 24px;
     transition: all var(--transition);
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .settlement-card:hover {
@@ -581,6 +630,22 @@
 .settlement-card .card-status {
     font-size: 13px;
     font-weight: 600;
+}
+
+.settlement-card .card-action-container {
+    margin-top: 12px;
+}
+
+.settlement-card .card-action-container .action-btn,
+.settlement-card .card-action-container .status-paid-btn,
+.settlement-card .card-action-container .waiting-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 38px !important;
+    min-height: unset !important;
+    border-radius: var(--radius-sm) !important;
 }
 
 /* ===========================
@@ -709,17 +774,71 @@
    RESPONSIVE
 =========================== */
 
+@media (max-width: 1024px) {
+    /* 1. Settlement cards padding */
+    .settlement-card {
+        padding: 18px;
+    }
+
+    /* 6. Who Pays Whom filters (Tablet layout) */
+    .filter-row,
+    .admin-filter-row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .filter-row .filter-group,
+    .admin-filter-row .filter-group {
+        width: 100% !important;
+        flex: none !important;
+        grid-column: auto !important;
+    }
+    
+    .filter-row .filter-group:first-child,
+    .admin-filter-row .filter-group:first-child {
+        grid-column: span 2 !important;
+    }
+}
+
 @media (max-width: 768px) {
+    .show-on-mobile {
+        display: block !important;
+    }
+
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+    /* 9. General mobile spacing */
     .page-content {
         padding: 16px;
     }
 
+    .panel-card {
+        margin-bottom: 16px;
+        padding: 18px; /* Tablet padding */
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .settlement-cards-grid {
+        gap: 12px;
+    }
+
     .page-header {
         flex-direction: column;
+        margin-bottom: 16px;
+        gap: 12px;
     }
 
     .header-actions {
         width: 100%;
+        gap: 8px;
     }
 
     .btn-action {
@@ -727,30 +846,124 @@
         justify-content: center;
     }
 
-    .summary-cards {
-        grid-template-columns: 1fr;
+    /* 1. Settlement cards padding below 768px */
+    .settlement-card {
+        padding: 18px;
     }
 
-    .filter-row {
-        grid-template-columns: 1fr;
+    /* 2. Member row (wrapping and gaps) */
+    .smart-flow {
+        flex-wrap: wrap;
+        gap: 8px;
     }
 
+    .smart-names {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    /* 3. Amount styling on mobile */
+    .smart-amount {
+        font-size: 24px;
+        text-align: center;
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    /* 4. Mark Received/Paid Button styling on mobile */
     .smart-item {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        gap: 12px;
     }
 
-    .smart-item .action-btn {
+    .smart-item .action-btn,
+    .smart-item .waiting-badge {
         width: 100%;
-        justify-content: center;
+        max-height: 44px;
+        border-radius: 10px;
     }
 
-    .section-header {
-        flex-direction: column;
+    /* 6. Who Pays Whom filters (Mobile layout) */
+    .filter-row,
+    .admin-filter-row {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .filter-row .filter-group:first-child,
+    .admin-filter-row .filter-group:first-child {
+        grid-column: span 1 !important;
+    }
+
+    /* 7. Table responsiveness */
+    .data-table {
+        min-width: 500px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* 10. Typography */
+    .page-header h2 {
+        font-size: 22px;
+    }
+
+    .section-header h3,
+    .confirm-content h3 {
+        font-size: 15px;
+    }
+
+    .page-header p,
+    .section-subtitle,
+    .empty-state p,
+    .data-table td,
+    .confirm-content p {
+        font-size: 14px;
+    }
+
+    /* 11. Avatar size */
+    .smart-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    /* 12. Icons size */
+    .stat-icon {
+        font-size: 18px;
+    }
+
+    /* 13. Buttons min-height and overflow prevention */
+    .action-btn,
+    .status-paid-btn,
+    .waiting-badge,
+    .btn-action,
+    .btn-cancel,
+    .btn-confirm {
+        min-height: 44px;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 }
 
 @media (max-width: 480px) {
+    /* 1. Settlement cards padding */
+    .settlement-card {
+        padding: 14px;
+    }
+
+    /* 8. Settlement history cards stack */
+    .settlement-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-card {
+        padding: 14px; /* Mobile padding */
+    }
+
     .stat-value {
         font-size: 20px;
     }

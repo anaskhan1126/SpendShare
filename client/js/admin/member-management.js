@@ -103,17 +103,21 @@ function updateStats() {
 function renderTable() {
     const tbody = document.getElementById("memberTableBody");
     const wrap = document.getElementById("tableWrapper");
+    const mobileList = document.getElementById("memberMobileList");
     const empty = document.getElementById("tableEmpty");
 
     if (!filteredMembers.length) {
         tbody.innerHTML = "";
-        wrap.style.display = "none";
-        empty.style.display = "flex";
+        if (mobileList) mobileList.innerHTML = "";
+        if (wrap) wrap.classList.add("hidden");
+        if (mobileList) mobileList.classList.add("hidden");
+        if (empty) empty.style.display = "flex";
         return;
     }
 
-    wrap.style.display = "block";
-    empty.style.display = "none";
+    if (wrap) wrap.classList.remove("hidden");
+    if (mobileList) mobileList.classList.remove("hidden");
+    if (empty) empty.style.display = "none";
 
     tbody.innerHTML = filteredMembers.map(member => `
         <tr class="fade-in">
@@ -139,16 +143,57 @@ function renderTable() {
             </td>
         </tr>
     `).join("");
+
+    if (mobileList) {
+        mobileList.innerHTML = filteredMembers.map(member => `
+            <div class="member-mobile-card fade-in">
+                <div class="card-header">
+                    <div class="member-avatar">${getInitials(member.name)}</div>
+                    <div class="header-info">
+                        <strong>${escapeHtml(member.name)}</strong>
+                        <span class="role-badge">${escapeHtml(member.role || "member")}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">${escapeHtml(member.email)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Phone</span>
+                        <span class="info-value">${escapeHtml(member.phone || "—")}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Group</span>
+                        <span class="info-value">${escapeHtml(getGroupName(member))}</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="action-btns">
+                        <button class="edit-btn btn-action-mobile" data-id="${member._id}">
+                            <i class="fa-solid fa-pen"></i> Edit
+                        </button>
+                        <button class="delete-btn btn-action-mobile" data-id="${member._id}" data-name="${escapeHtml(member.name)}">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join("");
+    }
 }
 
 function initTableActions() {
-    document.getElementById("memberTableBody")?.addEventListener("click", (e) => {
+    const handleAction = (e) => {
         const editBtn = e.target.closest(".edit-btn");
         const deleteBtn = e.target.closest(".delete-btn");
 
         if (editBtn) openEditModal(editBtn.dataset.id);
         if (deleteBtn) confirmDelete(deleteBtn.dataset.id, deleteBtn.dataset.name);
-    });
+    };
+
+    document.getElementById("memberTableBody")?.addEventListener("click", handleAction);
+    document.getElementById("memberMobileList")?.addEventListener("click", handleAction);
 }
 
 /* ===========================

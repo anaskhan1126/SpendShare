@@ -203,7 +203,7 @@
                 </div>
 
                 <!-- Filters + Table -->
-                <div class="panel-card slide-up slide-up-delay-3">
+                <div class="panel-card slide-up slide-up-delay-3 hide-on-mobile">
                     <div class="section-header">
                         <h3><i class="fa-solid fa-table"></i> Who Pays Whom</h3>
                     </div>
@@ -243,7 +243,7 @@
                         </div>
                     </div>
 
-                    <div class="empty-state" id="tableEmpty" style="display:none;">
+                    <div class="empty-state hidden" id="tableEmpty">
                         <i class="fa-solid fa-handshake"></i>
                         <h4>No settlements found</h4>
                         <p>Try adjusting your search or filters.</p>
@@ -251,12 +251,12 @@
                 </div>
 
                 <!-- Settlement Cards (mobile-friendly view) -->
-                <div class="panel-card slide-up">
+                <div class="panel-card slide-up show-on-mobile">
                     <div class="section-header">
                         <h3><i class="fa-solid fa-layer-group"></i> Settlement Cards</h3>
                     </div>
                     <div id="settlementCards" class="settlement-cards-grid"></div>
-                    <div class="empty-state" id="cardsEmpty" style="display:none;">
+                    <div class="empty-state hidden" id="cardsEmpty">
                         <i class="fa-solid fa-credit-card"></i>
                         <h4>No settlement cards</h4>
                         <p>Settlement cards will appear when transactions are pending.</p>
@@ -312,19 +312,19 @@
                         </div>
                     </div>
 
-                    <div class="filter-row" style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-                        <div class="filter-group" style="flex: 1; min-width: 200px; position: relative;">
+                    <div class="filter-row admin-filter-row">
+                        <div class="filter-group admin-search-group" style="position: relative;">
                             <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
                             <input type="text" id="adminSettlementSearch" placeholder="Search member..." style="width: 100%; padding: 10px 12px 10px 35px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-main);">
                         </div>
-                        <div class="filter-group" style="width: 180px;">
+                        <div class="filter-group admin-status-group">
                             <select id="adminStatusFilter" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-main);">
                                 <option value="all">All Status</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Paid">Paid</option>
                             </select>
                         </div>
-                        <div class="filter-group" style="width: 180px;">
+                        <div class="filter-group admin-date-group">
                             <input type="date" id="adminDateFilter" placeholder="Filter date..." style="width: 100%; padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-main);">
                         </div>
                     </div>
